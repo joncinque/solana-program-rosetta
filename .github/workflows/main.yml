@@ -64,7 +64,9 @@ jobs:
       run: ./install-rust-build-deps.sh
 
     - name: Install Solana
-      run: ./install-solana.sh
+      run: |
+        ./install-solana.sh
+        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
 
     - name: Build and test program
       run: cd ${{ matrix.program }} && cargo test-sbf
