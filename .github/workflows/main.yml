@@ -1,0 +1,38 @@
+name: Build and test programs
+
+on: [pull_request, push]
+
+env:
+  SOLANA_ZIG_VERSION: v1.43.0
+  SOLANA_ZIG_DIR: solana-zig
+
+jobs:
+  rust-test:
+    name: Run tests against Rust implementations
+    strategy:
+      matrix:
+        program: [helloworld]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+        key: rust-${{ hashFiles('./Cargo.lock') }}
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: 1.78.0
+
+    - name: Install Rust build deps
+      run: ./install-rust-build-deps.sh
+
+    - name: Install Solana
+      run: ./install-solana.sh
+
+    - name: Build and test program
+      run: cd ${{ matrix.program }} && cargo test-sbf
