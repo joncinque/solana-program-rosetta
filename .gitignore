@@ -1,3 +1,4 @@
 target/
 .zig-cache/
 zig-out/
+solana-zig/

@@ -7,6 +7,38 @@ env:
   SOLANA_ZIG_DIR: solana-zig
 
 jobs:
+  zig-test:
+    name: Run tests against Zig implementations
+    strategy:
+      matrix:
+        program: [helloworld]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          $SOLANA_ZIG_DIR
+        key: zig-${{ hashFiles('./Cargo.lock') }}-$SOLANA_ZIG_VERSION
+
+    - name: Download solana-zig compiler
+      shell: bash
+      run: SOLANA_ZIG_VERSION=$SOLANA_ZIG_VERSION ./install-solana-zig.sh $SOLANA_ZIG_DIR
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: 1.78.0
+
+    - name: Install build deps
+      run: ./install-rust-build-deps.sh
+
+    - name: Build and test program
+      run: ./test-zig.sh ${{ matrix.program }}
+
   rust-test:
     name: Run tests against Rust implementations
     strategy:
