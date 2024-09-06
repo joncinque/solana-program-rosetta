@@ -2,3 +2,5 @@ target/
 .zig-cache/
 zig-out/
 solana-zig/
+solana-c-sdk/
+out/
