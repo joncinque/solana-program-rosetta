@@ -5,6 +5,7 @@ on: [pull_request, push]
 env:
   SOLANA_ZIG_VERSION: v1.43.0
   SOLANA_ZIG_DIR: solana-zig
+  SOLANA_C_DIR: solana-c-sdk
 
 jobs:
   zig-test:
@@ -21,6 +22,8 @@ jobs:
         path: |
           ~/.cargo/registry
           ~/.cargo/git
+          ~/.cache/solana
+          ~/.cache/zig
           $SOLANA_ZIG_DIR
         key: zig-${{ hashFiles('./Cargo.lock') }}-$SOLANA_ZIG_VERSION
 
@@ -53,6 +56,7 @@ jobs:
         path: |
           ~/.cargo/registry
           ~/.cargo/git
+          ~/.cache/solana
         key: rust-${{ hashFiles('./Cargo.lock') }}
 
     - name: Install Rust
@@ -85,7 +89,9 @@ jobs:
         path: |
           ~/.cargo/registry
           ~/.cargo/git
-        key: rust-${{ hashFiles('./Cargo.lock') }}
+          ~/.cache/solana
+          $SOLANA_C_DIR
+        key: c-${{ hashFiles('./Cargo.lock') }}
 
     - name: Install Rust
       uses: dtolnay/rust-toolchain@master
@@ -101,7 +107,7 @@ jobs:
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
 
     - name: Install C compiler
-      run: ./install-solana-c.sh
+      run: ./install-solana-c.sh $SOLANA_C_DIR
 
     - name: Build and test program
       run: ./test-c.sh ${{ matrix.program }}
