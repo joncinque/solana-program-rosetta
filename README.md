@@ -60,13 +60,46 @@ cd helloworld/zig
 
 ```console
 cd ..
-SBF_OUT_DIR="./zig/zig-out/lib" cargo test"
+SBF_OUT_DIR="./zig/zig-out/lib" cargo test
 ```
 
 * OR use the helper from the root of this repo to build and test
 
 ```console
-./test-zig helloworld
+./test-zig.sh helloworld
+```
+
+### C
+
+* Install Solana tools
+
+```console
+./install-solana.sh
+```
+
+* Go to a program directory
+
+```console
+cd helloworld/c
+```
+
+* Build a program
+
+```console
+make
+```
+
+* Test it
+
+```console
+cd ..
+SBF_OUT_DIR="./c/out" cargo test
+```
+
+* OR use the helper from the root of this repo to build and test
+
+```console
+./test-c.sh helloworld
 ```
 
 ## Current Programs
