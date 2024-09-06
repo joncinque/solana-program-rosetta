@@ -100,5 +100,8 @@ jobs:
         ./install-solana.sh
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
 
+    - name: Install C compiler
+      run: ./install-solana-c.sh
+
     - name: Build and test program
       run: ./test-c.sh ${{ matrix.program }}

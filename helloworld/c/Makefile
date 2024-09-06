@@ -1,4 +1,4 @@
-LOCAL_PATH := /home/$(USER)/.local/share/solana/install/active_release/bin/sdk/sbf/c/
+LOCAL_PATH := ../../solana-c-sdk/c/
 
 .PHONY: all clean
 
