@@ -71,6 +71,12 @@ SBF_OUT_DIR="./zig/zig-out/lib" cargo test
 
 ### C
 
+* Install Solana C compiler
+
+```console
+./install-solana-c.sh
+```
+
 * Install Solana tools
 
 ```console
