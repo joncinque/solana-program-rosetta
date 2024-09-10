@@ -6,6 +6,7 @@ env:
   SOLANA_ZIG_VERSION: v1.43.0
   SOLANA_ZIG_DIR: solana-zig
   SOLANA_C_DIR: solana-c-sdk
+  SOLANA_LLVM_DIR: solana-llvm
 
 jobs:
   zig-test:
@@ -111,3 +112,35 @@ jobs:
 
     - name: Build and test program
       run: ./test-c.sh ${{ matrix.program }}
+
+  asm-test:
+    name: Run tests against assembly implementations
+    strategy:
+      matrix:
+        program: [helloworld]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          ~/.cache/solana
+          $SOLANA_LLVM_DIR
+        key: asm-${{ hashFiles('./Cargo.lock') }}
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: 1.78.0
+
+    - name: Install Rust build deps
+      run: ./install-rust-build-deps.sh
+
+    - name: Install LLVM
+      run: ./install-solana-llvm.sh $SOLANA_LLVM_DIR
+
+    - name: Build and test program
+      run: ./test-asm.sh ${{ matrix.program }}

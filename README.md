@@ -1,6 +1,7 @@
 # solana-program-rosetta
 
-Multiple implementations of Solana programs across languages
+Multiple implementations of Solana programs across languages: Rust, Zig, C, and
+even assembly.
 
 More programs will be added over time!
 
@@ -106,6 +107,39 @@ SBF_OUT_DIR="./c/out" cargo test
 
 ```console
 ./test-c.sh helloworld
+```
+
+### Assembly
+
+* Install Solana LLVM tools
+
+```console
+./install-solana-llvm.sh
+```
+
+* Go to a program directory
+
+```console
+cd helloworld/asm
+```
+
+* Build a program
+
+```console
+make
+```
+
+* Test it
+
+```console
+cd ..
+SBF_OUT_DIR="./asm/out" cargo test
+```
+
+* OR use the helper from the root of this repo to build and test
+
+```console
+./test-asm.sh helloworld
 ```
 
 ## Current Programs
