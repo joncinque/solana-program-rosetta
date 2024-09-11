@@ -13,7 +13,7 @@ jobs:
     name: Run tests against Zig implementations
     strategy:
       matrix:
-        program: [helloworld]
+        program: [helloworld, transfer-lamports]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +47,7 @@ jobs:
     name: Run tests against Rust implementations
     strategy:
       matrix:
-        program: [helloworld]
+        program: [helloworld, transfer-lamports]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -80,7 +80,7 @@ jobs:
     name: Run tests against C implementations
     strategy:
       matrix:
-        program: [helloworld]
+        program: [helloworld, transfer-lamports]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +117,7 @@ jobs:
     name: Run tests against assembly implementations
     strategy:
       matrix:
-        program: [helloworld]
+        program: [helloworld, transfer-lamports]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
