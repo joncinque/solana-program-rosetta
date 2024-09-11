@@ -13,7 +13,7 @@ entrypoint:
 	and64 r4, -8 # enough padding to be divisible by 8
 	add64 r4, 16 # we truncated earlier, so add 8 for truncation, then 8 more for rent epoch
 	ldxb r5, [r4 + 0] # get second account
-  jne r5, 0xff, error # we don't allow duplicates
+	jne r5, 0xff, error # we don't allow duplicates
 	ldxdw r5, [r4 + 8 + 32 + 32] # get destination lamports
 	sub64 r2, 5 # subtract lamports
 	add64 r5, 5 # add lamports

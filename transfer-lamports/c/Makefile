@@ -41,9 +41,9 @@ SBF_LLD_FLAGS := \
   -L $(STD_LIB_DIRS) \
   -lc \
 
-$(OUT_DIR)/main.s: $(SRC_DIR)/main.c
+$(OUT_DIR)/main.o: $(SRC_DIR)/main.c
 	mkdir -p $(OUT_DIR)
-	$(CC) $(C_FLAGS) -S -o $(OUT_DIR)/main.s -c $(SRC_DIR)/main.c
+	$(CC) $(C_FLAGS) -o $(OUT_DIR)/main.o -c $(SRC_DIR)/main.c
 
 $(OUT_DIR)/solana_program_rosetta_transfer_lamports.so: $(OUT_DIR)/main.o
 	$(LLD) $(SBF_LLD_FLAGS) -o $(OUT_DIR)/solana_program_rosetta_transfer_lamports.so $(OUT_DIR)/main.o
