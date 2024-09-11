@@ -3934,6 +3934,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "solana-program-rosetta-transfer-lamports"
+version = "1.0.0"
+dependencies = [
+ "solana-program",
+ "solana-program-test",
+ "solana-sdk",
+]
+
+[[package]]
 name = "solana-program-runtime"
 version = "2.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"

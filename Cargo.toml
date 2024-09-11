@@ -1,6 +1,7 @@
 [workspace]
 members = [
-  "helloworld"
+  "helloworld",
+  "transfer-lamports"
 ]
 resolver = "2"
 
