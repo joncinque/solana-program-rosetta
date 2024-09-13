@@ -21,6 +21,7 @@ async fn test_lamport_transfer() {
         source_pubkey,
         Account {
             lamports: source_lamports,
+            data: vec![0],
             owner: program_id, // Can only withdraw lamports from accounts owned by the program
             ..Account::default()
         },
