@@ -145,4 +145,27 @@ SBF_OUT_DIR="./asm/out" cargo test
 ## Current Programs
 
 * Helloworld: logs a static string using the `sol_log_` syscall
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 105 |
+| Zig | 105 |
+| C | 105 |
+| Assembly | 104 |
+
+Since this is just doing a syscall, all the languages behave the same. The only
+difference is that the Assembly version *doesn't* set the return code to 0, and
+lets the VM assume it worked.
+
 * Transfer-Lamports: moves 5 lamports from a source account to a destination
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 464 |
+| Zig | 469 |
+| C | 103 |
+| Assembly | 23 |
+
+This one starts to get interesting since it requires parsing the instruction
+input. Since the assembly version knows exactly where to find everything, it can
+be hyper-optimized. The C version is also very performant.
