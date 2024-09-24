@@ -6,4 +6,4 @@ entrypoint:
 	exit
 .extern sol_log_
 .rodata 
-	.message: .ascii "Hello world!"
+	message: .ascii "Hello world!"
