@@ -20,8 +20,9 @@
             .hash = "1220fd067bf167b9062cc29ccf715ff97643c2d3f8958beea863b6036876bb71bcb8",
         },
         .@"solana-program-sdk" = .{
-            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.13.1.tar.gz",
-            .hash = "122030336f1257e3c0aa64243f5243f554b903c6b9ef3a91d48bfbe896c0c7d9b13b",
+            .path = "../../../zig/solana-program-sdk-zig",
+            //.url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.13.1.tar.gz",
+            //.hash = "122030336f1257e3c0aa64243f5243f554b903c6b9ef3a91d48bfbe896c0c7d9b13b",
         },
     },
 
