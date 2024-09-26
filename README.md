@@ -164,7 +164,7 @@ lets the VM assume it worked.
 | Rust | 464 |
 | Zig | 186 |
 | C | 103 |
-| Assembly | 23 |
+| Assembly | 22 |
 
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
