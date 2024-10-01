@@ -162,10 +162,11 @@ lets the VM assume it worked.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 464 |
-| Zig | 469 |
+| Zig | 186 |
 | C | 103 |
 | Assembly | 23 |
 
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
 be hyper-optimized. The C version is also very performant.
+Zig's version should perform the same as C, but there are some inefficiencies that are currently fixing.
