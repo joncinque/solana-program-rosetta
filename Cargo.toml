@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "cpi",
   "helloworld",
   "transfer-lamports"
 ]

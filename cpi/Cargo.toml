@@ -1,0 +1,17 @@
+[package]
+name = "solana-program-rosetta-cpi"
+version = "1.0.0"
+edition = "2021"
+
+[features]
+test-sbf = []
+
+[dependencies]
+solana-program = "2.0.3"
+
+[dev-dependencies]
+solana-program-test = "2.0.3"
+solana-sdk = "2.0.3"
+
+[lib]
+crate-type = ["cdylib", "lib"]
