@@ -4,7 +4,7 @@ const base58 = @import("base58");
 
 pub fn build(b: *std.Build) !void {
     const target = b.resolveTargetQuery(solana.sbf_target);
-    const optimize = .ReleaseSmall;
+    const optimize = .ReleaseFast;
     const program = b.addSharedLibrary(.{
         .name = "solana_program_rosetta_transfer_lamports",
         .root_source_file = b.path("main.zig"),
