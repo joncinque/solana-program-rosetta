@@ -169,4 +169,14 @@ lets the VM assume it worked.
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
 be hyper-optimized. The C version is also very performant.
-Zig's version should perform the same as C, but there are some inefficiencies that are currently fixing.
+
+Zig's version should perform the same as C, but there are some inefficiencies that
+are currently being fixed.
+
+* CPI: allocates a PDA given by the seed "You pass butter" and a bump seed in
+the instruction data. This requires a call to `create_program_address` to check
+the address and `invoke_signed` to CPI to the system program.
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 3662 |
