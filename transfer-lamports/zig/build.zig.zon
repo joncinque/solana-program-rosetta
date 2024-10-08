@@ -19,10 +19,6 @@
             .url = "https://github.com/joncinque/base58-zig/archive/refs/tags/v0.13.3.tar.gz",
             .hash = "1220fd067bf167b9062cc29ccf715ff97643c2d3f8958beea863b6036876bb71bcb8",
         },
-        .clap = .{
-            .url = "https://github.com/Hejsil/zig-clap/archive/refs/tags/0.9.1.tar.gz",
-            .hash = "122062d301a203d003547b414237229b09a7980095061697349f8bef41be9c30266b",
-        },
         .@"solana-program-sdk" = .{
             .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.13.1.tar.gz",
             .hash = "122030336f1257e3c0aa64243f5243f554b903c6b9ef3a91d48bfbe896c0c7d9b13b",
