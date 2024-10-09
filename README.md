@@ -181,3 +181,4 @@ the address and `invoke_signed` to CPI to the system program.
 | --- | --- |
 | Rust | 3662 |
 | Zig | 3141 |
+| C | 3122 |
