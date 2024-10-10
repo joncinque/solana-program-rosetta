@@ -1,5 +1,5 @@
 /**
- * @brief C-based Helloworld BPF program
+ * @brief C-based Transfer Lamports BPF program
  */
 #include <solana_sdk.h>
 
