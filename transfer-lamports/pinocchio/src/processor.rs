@@ -18,10 +18,12 @@ pub fn process_instruction(
         return Err(ProgramError::NotEnoughAccountKeys);
     };
 
-    // Withdraw five lamports from the source
-    *source_info.try_borrow_mut_lamports()? -= 5;
-    // Deposit five lamports into the destination
-    *destination_info.try_borrow_mut_lamports()? += 5;
+    unsafe {
+        // Withdraw five lamports from the source
+        *source_info.borrow_mut_lamports_unchecked() -= 5;
+        // Deposit five lamports into the destination
+        *destination_info.borrow_mut_lamports_unchecked() += 5;
+    }
 
     Ok(())
 }

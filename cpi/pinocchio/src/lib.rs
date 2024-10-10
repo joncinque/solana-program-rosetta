@@ -1,16 +1,15 @@
 //! Rust example demonstrating invoking another program
 #![deny(missing_docs)]
-#![forbid(unsafe_code)]
 
 use pinocchio::{
     account_info::AccountInfo,
     entrypoint,
     entrypoint::ProgramResult,
-    instruction::{Seed, Signer},
+    instruction::{Account, AccountMeta, Instruction, Seed, Signer},
+    program::invoke_signed_unchecked,
     program_error::ProgramError,
     pubkey::{create_program_address, Pubkey},
 };
-use pinocchio_system::instructions::Allocate;
 
 pinocchio::entrypoint!(process_instruction);
 
@@ -36,14 +35,26 @@ pub fn process_instruction(
     }
 
     // Invoke the system program to allocate account data
-    Allocate {
-        account: allocated_info,
-        space: SIZE as u64,
+    let mut data = [0; 12];
+    data[0] = 8; // ix discriminator
+    data[4..12].copy_from_slice(&SIZE.to_le_bytes());
+
+    let instruction = Instruction {
+        program_id: &pinocchio_system::ID,
+        accounts: &[AccountMeta::writable_signer(allocated_info.key())],
+        data: &data,
+    };
+
+    unsafe {
+        invoke_signed_unchecked(
+            &instruction,
+            &[Account::from(allocated_info)],
+            &[Signer::from(&[
+                Seed::from(b"You pass butter"),
+                Seed::from(&[instruction_data[0]]),
+            ])],
+        );
     }
-    .invoke_signed(&[Signer::from(&[
-        Seed::from(b"You pass butter"),
-        Seed::from(&[instruction_data[0]]),
-    ])])?;
 
     Ok(())
 }
