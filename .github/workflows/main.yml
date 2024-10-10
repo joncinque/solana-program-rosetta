@@ -80,7 +80,7 @@ jobs:
     name: Run tests against C implementations
     strategy:
       matrix:
-        program: [helloworld, transfer-lamports]
+        program: [helloworld, transfer-lamports, cpi]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

@@ -34,15 +34,16 @@ extern uint64_t entrypoint(const uint8_t *input)
     return ERROR_INVALID_INSTRUCTION_DATA;
   }
 
+  // allocated key does not match the derived address
   if (!SolPubkey_same(&expected_allocated_key, allocated_info.key))
   {
     return ERROR_INVALID_ARGUMENT;
   }
 
   SolAccountMeta arguments[] = {{allocated_info.key, true, true}};
-  uint8_t data[4 + 8];
-  *(uint16_t *)data = 8;
-  *(uint64_t *)(data + 4) = SIZE;
+  uint8_t data[4 + 8];            // Enough room for the Allocate instruction
+  *(uint16_t *)data = 8;          // Allocate instruction enum value
+  *(uint64_t *)(data + 4) = SIZE; // Size to allocate
   const SolInstruction instruction = {system_program_info.key, arguments,
                                       SOL_ARRAY_SIZE(arguments), data,
                                       SOL_ARRAY_SIZE(data)};
