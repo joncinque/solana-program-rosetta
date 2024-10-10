@@ -1312,6 +1312,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "five8_const"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72b4f62f0f8ca357f93ae90c8c2dd1041a1f665fde2f889ea9b1787903829015"
+dependencies = [
+ "five8_core",
+]
+
+[[package]]
+name = "five8_core"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9b2a72055cd9cffc40c9f75f1e5810c80559e158796cf2202292ce4745889588"
+
+[[package]]
 name = "fixedbitset"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2515,6 +2530,51 @@ name = "pin-utils"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
+
+[[package]]
+name = "pinocchio"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4205e6f0d6f9155ece9e9cff154192a8e36c2c987ce3143f50b5fbea46e7d2fa"
+
+[[package]]
+name = "pinocchio-pubkey"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a2826006b44e26d8db9cf1f9ead4e43f01a36fa5f59d032cf9fdb5d118356249"
+dependencies = [
+ "five8_const",
+ "pinocchio",
+]
+
+[[package]]
+name = "pinocchio-rosetta-cpi"
+version = "1.0.0"
+dependencies = [
+ "pinocchio",
+ "pinocchio-system",
+ "solana-program-test",
+ "solana-sdk",
+]
+
+[[package]]
+name = "pinocchio-rosetta-transfer-lamports"
+version = "1.0.0"
+dependencies = [
+ "pinocchio",
+ "solana-program-test",
+ "solana-sdk",
+]
+
+[[package]]
+name = "pinocchio-system"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "906738307ebf61b4a3751f756ee5635018b20a9151564c265ed84982e63d4323"
+dependencies = [
+ "pinocchio",
+ "pinocchio-pubkey",
+]
 
 [[package]]
 name = "pkg-config"

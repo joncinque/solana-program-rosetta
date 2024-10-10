@@ -1,8 +1,10 @@
 [workspace]
 members = [
   "cpi",
+  "cpi/pinocchio",
   "helloworld",
-  "transfer-lamports"
+  "transfer-lamports",
+  "transfer-lamports/pinocchio"
 ]
 resolver = "2"
 
