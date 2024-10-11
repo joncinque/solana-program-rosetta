@@ -180,5 +180,5 @@ the address and `invoke_signed` to CPI to the system program.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 3662 |
-| Zig | 3141 |
+| Zig | 2825 |
 | C | 3122 |

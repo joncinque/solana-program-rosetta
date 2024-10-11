@@ -15,17 +15,13 @@
     // Once all dependencies are fetched, `zig build` no longer requires
     // internet connectivity.
     .dependencies = .{
-        .base58 = .{
-            .url = "https://github.com/joncinque/base58-zig/archive/refs/tags/v0.13.3.tar.gz",
-            .hash = "1220fd067bf167b9062cc29ccf715ff97643c2d3f8958beea863b6036876bb71bcb8",
-        },
         .@"solana-program-sdk" = .{
-            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.13.1.tar.gz",
-            .hash = "122030336f1257e3c0aa64243f5243f554b903c6b9ef3a91d48bfbe896c0c7d9b13b",
+            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.14.0.tar.gz",
+            .hash = "1220bdfa4ea1ab6330959ce4bc40feb5b39a7f98923a266a94b69e27fd20c3526786",
         },
         .@"solana-program-library" = .{
-            .url = "https://github.com/joncinque/solana-program-library-zig/archive/refs/tags/v0.13.1.tar.gz",
-            .hash = "12208555f3e41bfba0ac89c4a7c6884595c78aa5d4ff4f99869c7ae0e396fd762448",
+            .url = "https://github.com/joncinque/solana-program-library-zig/archive/refs/tags/v0.14.0.tar.gz",
+            .hash = "1220b5f9dbfa8e36b67c4bcbddb44d1e74a1c8eda0f10f485c553f4a316994e1a3d5",
         },
     },
 
