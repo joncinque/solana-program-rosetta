@@ -15,22 +15,11 @@
     // Once all dependencies are fetched, `zig build` no longer requires
     // internet connectivity.
     .dependencies = .{
-        .base58 = .{
-            .url = "https://github.com/joncinque/base58-zig/archive/refs/tags/v0.13.3.tar.gz",
-            .hash = "1220fd067bf167b9062cc29ccf715ff97643c2d3f8958beea863b6036876bb71bcb8",
-        },
         .@"solana-program-sdk" = .{
-            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.13.1.tar.gz",
-            .hash = "122030336f1257e3c0aa64243f5243f554b903c6b9ef3a91d48bfbe896c0c7d9b13b",
+            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.14.0.tar.gz",
+            .hash = "1220bdfa4ea1ab6330959ce4bc40feb5b39a7f98923a266a94b69e27fd20c3526786",
         },
     },
-
-    // Specifies the set of files and directories that are included in this package.
-    // Only files and directories listed here are included in the `hash` that
-    // is computed for this package.
-    // Paths are relative to the build root. Use the empty string (`""`) to refer to
-    // the build root itself.
-    // A directory listed here means that all files within, recursively, are included.
     .paths = .{
         "build.zig",
         "build.zig.zon",
