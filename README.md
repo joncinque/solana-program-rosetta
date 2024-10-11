@@ -162,7 +162,7 @@ lets the VM assume it worked.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 464 |
-| Zig | 42 |
+| Zig | 43 |
 | C | 103 |
 | Assembly | 22 |
 
