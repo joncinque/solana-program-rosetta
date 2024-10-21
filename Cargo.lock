@@ -2533,15 +2533,13 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 
 [[package]]
 name = "pinocchio"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4205e6f0d6f9155ece9e9cff154192a8e36c2c987ce3143f50b5fbea46e7d2fa"
+version = "0.5.0"
+source = "git+https://github.com/febo/pinocchio.git?branch=create-pda-unchecked#a22cc1861d5666c4aa977dfb25c7b5b33bacc34b"
 
 [[package]]
 name = "pinocchio-pubkey"
-version = "0.1.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a2826006b44e26d8db9cf1f9ead4e43f01a36fa5f59d032cf9fdb5d118356249"
+version = "0.2.0"
+source = "git+https://github.com/febo/pinocchio.git?branch=create-pda-unchecked#a22cc1861d5666c4aa977dfb25c7b5b33bacc34b"
 dependencies = [
  "five8_const",
  "pinocchio",
@@ -2568,9 +2566,8 @@ dependencies = [
 
 [[package]]
 name = "pinocchio-system"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "906738307ebf61b4a3751f756ee5635018b20a9151564c265ed84982e63d4323"
+version = "0.1.3"
+source = "git+https://github.com/febo/pinocchio.git?branch=create-pda-unchecked#a22cc1861d5666c4aa977dfb25c7b5b33bacc34b"
 dependencies = [
  "pinocchio",
  "pinocchio-pubkey",

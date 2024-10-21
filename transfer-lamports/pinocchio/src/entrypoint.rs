@@ -2,14 +2,24 @@
 
 #![cfg(not(feature = "no-entrypoint"))]
 
-use pinocchio::{account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, pubkey::Pubkey};
+use pinocchio::{lazy_entrypoint::InstructionContext, ProgramResult};
 
-pinocchio::entrypoint!(process_instruction);
+// Since this is a single instruction program, we use the "lazy" variation
+// of the entrypoint.
+pinocchio::lazy_entrypoint!(process_instruction);
 
-fn process_instruction(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-    instruction_data: &[u8],
-) -> ProgramResult {
-    crate::processor::process_instruction(program_id, accounts, instruction_data)
+#[inline]
+unsafe fn process_instruction(mut context: InstructionContext) -> ProgramResult {
+    // Account infos used in the transfer. Here we are optimizing for CU, so we
+    // are not checking that the accounts are present ('unchecked' method will panic
+    // if the account is duplicated or UB if the account is missing).
+    let source_info = context.next_account_unchecked();
+    let destination_info = context.next_account_unchecked();
+
+    // Transfer five lamports from the source to the destination using 'unchecked'
+    // borrowing. This is safe since we know the lamports are not borrowed elsewhere.
+    *source_info.borrow_mut_lamports_unchecked() -= 5; // withdraw five lamports
+    *destination_info.borrow_mut_lamports_unchecked() += 5; // deposit five lamports
+
+    Ok(())
 }

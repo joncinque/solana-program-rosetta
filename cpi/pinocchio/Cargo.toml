@@ -7,8 +7,8 @@ edition = "2021"
 test-sbf = []
 
 [dependencies]
-pinocchio = "0.4"
-pinocchio-system = "0.1"
+pinocchio = { version = "0.5", git = "https://github.com/febo/pinocchio.git", branch = "create-pda-unchecked" }
+pinocchio-system = { version="0.1",  git = "https://github.com/febo/pinocchio.git", branch = "create-pda-unchecked" }
 
 [dev-dependencies]
 solana-program-test = "2.0.3"
