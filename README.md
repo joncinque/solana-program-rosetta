@@ -164,8 +164,8 @@ lets the VM assume it worked.
 | Rust | 464 |
 | Zig | 43 |
 | C | 103 |
-| Rust (pinocchio) | 51 |
 | Assembly | 22 |
+| Rust (pinocchio) | 20 |
 
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
@@ -183,4 +183,4 @@ the address and `invoke_signed` to CPI to the system program.
 | Rust | 3662 |
 | Zig | 2825 |
 | C | 3122 |
-| Rust (pinocchio) | 2900 |
+| Rust (pinocchio) | 2815 |
