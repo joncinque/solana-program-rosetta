@@ -23,8 +23,8 @@ unsafe fn process_instruction(mut context: InstructionContext) -> ProgramResult 
     // optimizing for CU, so we are not checking that the accounts are present
     // ('unchecked' method will panic if the account is duplicated or UB if the
     // account is missing).
-    let allocated_info = context.next_account_unchecked();
-    let _system_program_info = context.next_account_unchecked();
+    let allocated_info = context.next_account_unchecked().assume_account();
+    let _system_program_info = context.next_account_unchecked().assume_account();
 
     // Again, we are not checking that all accounts have been consumed (we assume
     // that we got only the 2 accounts we expected).

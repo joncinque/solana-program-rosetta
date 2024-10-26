@@ -8,7 +8,7 @@ no-entrypoint = []
 test-sbf = []
 
 [dependencies]
-pinocchio = { version = "0.5", git = "https://github.com/febo/pinocchio.git", branch = "create-pda-unchecked" }
+pinocchio = "0.6"
 
 [dev-dependencies]
 solana-program-test = "2.0.3"
