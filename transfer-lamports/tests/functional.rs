@@ -8,13 +8,28 @@ use {
     std::str::FromStr,
 };
 
+/// The name of the program to test when using the `solana_program` library.
+const SOLANA_PROGRAM: &str = "solana_program_rosetta_transfer_lamports";
+
+/// The name of the program to test when using the `pinocchio` library.
+const PINOCCHIO_PROGRAM: &str = "pinocchio_rosetta_transfer_lamports";
+
 #[tokio::test]
 async fn test_lamport_transfer() {
     let program_id = Pubkey::from_str("TransferLamports111111111111111111111111111").unwrap();
     let source_pubkey = Pubkey::new_unique();
     let destination_pubkey = Pubkey::new_unique();
-    let mut program_test =
-        ProgramTest::new("solana_program_rosetta_transfer_lamports", program_id, None);
+
+    let library = std::env::var("ROSETTA_LIBRARY").unwrap_or(String::from("solana_program"));
+    let mut program_test = ProgramTest::new(
+        match library.as_str() {
+            "pinocchio" => PINOCCHIO_PROGRAM,
+            _ => SOLANA_PROGRAM,
+        },
+        program_id,
+        None,
+    );
+
     let source_lamports = 5;
     let destination_lamports = 890_875;
     program_test.add_account(
