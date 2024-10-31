@@ -5,4 +5,4 @@ ROOT_DIR="$(cd "$(dirname "$0")"; pwd)"
 PROGRAM_DIR=$ROOT_DIR/$PROGRAM_NAME
 cd $PROGRAM_DIR/pinocchio
 cargo build-sbf
-ROSETTA_LIBRARY="pinocchio" SBF_OUT_DIR="$ROOT_DIR/target/deploy" cargo test --manifest-path "$PROGRAM_DIR/Cargo.toml"
+PROGRAM_NAME="pinocchio_rosetta_${PROGRAM_NAME//-/_}" SBF_OUT_DIR="$ROOT_DIR/target/deploy" cargo test --manifest-path "$PROGRAM_DIR/Cargo.toml"

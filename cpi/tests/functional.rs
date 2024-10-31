@@ -11,24 +11,14 @@ use {
     std::str::FromStr,
 };
 
-/// The name of the program to test when using the `solana_program` library.
-const SOLANA_PROGRAM: &str = "solana_program_rosetta_cpi";
-
-/// The name of the program to test when using the `pinocchio` library.
-const PINOCCHIO_PROGRAM: &str = "pinocchio_rosetta_cpi";
-
 #[tokio::test]
 async fn test_cross_program_invocation() {
     let program_id = Pubkey::from_str("invoker111111111111111111111111111111111111").unwrap();
     let (allocated_pubkey, bump_seed) =
         Pubkey::find_program_address(&[b"You pass butter"], &program_id);
 
-    let library = std::env::var("ROSETTA_LIBRARY").unwrap_or(String::from("solana_program"));
     let mut program_test = ProgramTest::new(
-        match library.as_str() {
-            "pinocchio" => PINOCCHIO_PROGRAM,
-            _ => SOLANA_PROGRAM,
-        },
+        option_env!("PROGRAM_NAME").unwrap_or("solana_program_rosetta_cpi"),
         program_id,
         None,
     );
