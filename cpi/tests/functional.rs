@@ -5,7 +5,7 @@ use {
         rent::Rent,
         system_program,
     },
-    solana_program_rosetta_cpi::{process_instruction, SIZE},
+    solana_program_rosetta_cpi::SIZE,
     solana_program_test::*,
     solana_sdk::{account::Account, signature::Signer, transaction::Transaction},
     std::str::FromStr,
@@ -16,11 +16,13 @@ async fn test_cross_program_invocation() {
     let program_id = Pubkey::from_str("invoker111111111111111111111111111111111111").unwrap();
     let (allocated_pubkey, bump_seed) =
         Pubkey::find_program_address(&[b"You pass butter"], &program_id);
+
     let mut program_test = ProgramTest::new(
-        "solana_program_rosetta_cpi",
+        option_env!("PROGRAM_NAME").unwrap_or("solana_program_rosetta_cpi"),
         program_id,
-        processor!(process_instruction),
+        None,
     );
+
     program_test.add_account(
         allocated_pubkey,
         Account {

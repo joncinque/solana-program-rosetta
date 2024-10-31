@@ -1,0 +1,13 @@
+[package]
+name = "pinocchio-rosetta-transfer-lamports"
+version = "1.0.0"
+edition = "2021"
+
+[features]
+no-entrypoint = []
+
+[dependencies]
+pinocchio = "0.6"
+
+[lib]
+crate-type = ["cdylib", "lib"]

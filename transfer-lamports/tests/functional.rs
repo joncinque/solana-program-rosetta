@@ -13,8 +13,13 @@ async fn test_lamport_transfer() {
     let program_id = Pubkey::from_str("TransferLamports111111111111111111111111111").unwrap();
     let source_pubkey = Pubkey::new_unique();
     let destination_pubkey = Pubkey::new_unique();
-    let mut program_test =
-        ProgramTest::new("solana_program_rosetta_transfer_lamports", program_id, None);
+
+    let mut program_test = ProgramTest::new(
+        option_env!("PROGRAM_NAME").unwrap_or("solana_program_rosetta_transfer_lamports"),
+        program_id,
+        None,
+    );
+
     let source_lamports = 5;
     let destination_lamports = 890_875;
     program_test.add_account(

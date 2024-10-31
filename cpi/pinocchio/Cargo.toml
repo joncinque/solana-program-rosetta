@@ -1,0 +1,11 @@
+[package]
+name = "pinocchio-rosetta-cpi"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+pinocchio = "0.6"
+pinocchio-system = "0.2"
+
+[lib]
+crate-type = ["cdylib", "lib"]

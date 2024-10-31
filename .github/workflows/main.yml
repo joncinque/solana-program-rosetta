@@ -150,3 +150,36 @@ jobs:
 
     - name: Build and test program
       run: ./test-asm.sh ${{ matrix.program }}
+
+  pinocchio-test:
+    name: Run tests against Pinocchio Rust implementations
+    strategy:
+      matrix:
+        program: [transfer-lamports, cpi]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          ~/.cache/solana
+        key: rust-${{ hashFiles('./Cargo.lock') }}
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: 1.78.0
+
+    - name: Install Rust build deps
+      run: ./install-rust-build-deps.sh
+
+    - name: Install Solana
+      run: |
+        ./install-solana.sh
+        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+
+    - name: Build and test program
+      run: ./test-pinocchio.sh ${{ matrix.program }}
