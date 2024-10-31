@@ -1,4 +1,4 @@
-//! Rust example demonstrating invoking another program
+//! Rust example using pinocchio demonstrating invoking another program
 #![deny(missing_docs)]
 
 use pinocchio::{
@@ -18,17 +18,20 @@ pinocchio::lazy_entrypoint!(process_instruction);
 pub const SIZE: usize = 42;
 
 /// Instruction processor.
-unsafe fn process_instruction(mut context: InstructionContext) -> ProgramResult {
-    // Account info to allocate and for the program being invoked. Here we are
-    // optimizing for CU, so we are not checking that the accounts are present
-    // ('unchecked' method will panic if the account is duplicated or UB if the
-    // account is missing).
-    let allocated_info = context.next_account_unchecked().assume_account();
-    let _system_program_info = context.next_account_unchecked().assume_account();
+fn process_instruction(mut context: InstructionContext) -> ProgramResult {
+    if context.remaining() != 2 {
+        return Err(ProgramError::NotEnoughAccountKeys);
+    }
 
-    // Again, we are not checking that all accounts have been consumed (we assume
-    // that we got only the 2 accounts we expected).
-    let (instruction_data, program_id) = context.instruction_data_unchecked();
+    // Account info to allocate and for the program being invoked. We know that
+    // we got 2 accounts, so it is ok use `next_account_unchecked` twice.
+    let allocated_info = unsafe { context.next_account_unchecked().assume_account() };
+    // just move the offset, we don't need the system program info
+    let _system_program_info = unsafe { context.next_account_unchecked() };
+
+    // Again, don't need to check that all accounts have been consumed, we know
+    // we have exactly 2 accounts.
+    let (instruction_data, program_id) = unsafe { context.instruction_data_unchecked() };
 
     let expected_allocated_key =
         create_program_address(&[b"You pass butter", &[instruction_data[0]]], program_id)?;
@@ -48,13 +51,15 @@ unsafe fn process_instruction(mut context: InstructionContext) -> ProgramResult 
         data: &data,
     };
 
-    // Invoke the system program with the 'unchcked' function. This is safe since
+    // Invoke the system program with the 'unchecked' function - this is ok since
     // we know the accounts are not borrowed elsewhere.
-    invoke_signed_unchecked(
-        &instruction,
-        &[Account::from(&allocated_info)],
-        &[signer!(b"You pass butter", &[instruction_data[0]])],
-    );
+    unsafe {
+        invoke_signed_unchecked(
+            &instruction,
+            &[Account::from(&allocated_info)],
+            &[signer!(b"You pass butter", &[instruction_data[0]])],
+        )
+    };
 
     Ok(())
 }
