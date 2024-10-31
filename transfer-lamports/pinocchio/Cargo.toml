@@ -5,14 +5,9 @@ edition = "2021"
 
 [features]
 no-entrypoint = []
-test-sbf = []
 
 [dependencies]
 pinocchio = "0.6"
-
-[dev-dependencies]
-solana-program-test = "2.0.3"
-solana-sdk = "2.0.3"
 
 [lib]
 crate-type = ["cdylib", "lib"]

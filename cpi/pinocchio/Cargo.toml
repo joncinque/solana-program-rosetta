@@ -3,16 +3,9 @@ name = "pinocchio-rosetta-cpi"
 version = "1.0.0"
 edition = "2021"
 
-[features]
-test-sbf = []
-
 [dependencies]
 pinocchio = "0.6"
 pinocchio-system = "0.2"
-
-[dev-dependencies]
-solana-program-test = "2.0.3"
-solana-sdk = "2.0.3"
 
 [lib]
 crate-type = ["cdylib", "lib"]

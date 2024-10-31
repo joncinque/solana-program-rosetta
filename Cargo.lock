@@ -2553,8 +2553,6 @@ version = "1.0.0"
 dependencies = [
  "pinocchio",
  "pinocchio-system",
- "solana-program-test",
- "solana-sdk",
 ]
 
 [[package]]
@@ -2562,8 +2560,6 @@ name = "pinocchio-rosetta-transfer-lamports"
 version = "1.0.0"
 dependencies = [
  "pinocchio",
- "solana-program-test",
- "solana-sdk",
 ]
 
 [[package]]
