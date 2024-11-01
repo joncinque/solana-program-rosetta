@@ -38,10 +38,12 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
         // accounts are different, so we can safely ignore the case when the account is
         // duplicated.
         if let MaybeAccount::Account(destination_info) = context.next_account_unchecked() {
+            let (instruction_data, _) = context.instruction_data_unchecked();
+            let transfer_amount = u64::from_le_bytes(instruction_data.try_into().unwrap());
             // withdraw five lamports
-            *source_info.borrow_mut_lamports_unchecked() -= 5;
+            *source_info.borrow_mut_lamports_unchecked() -= transfer_amount;
             // deposit five lamports
-            *destination_info.borrow_mut_lamports_unchecked() += 5;
+            *destination_info.borrow_mut_lamports_unchecked() += transfer_amount;
         }
     }
 

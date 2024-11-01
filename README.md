@@ -157,22 +157,20 @@ Since this is just doing a syscall, all the languages behave the same. The only
 difference is that the Assembly version *doesn't* set the return code to 0, and
 lets the VM assume it worked.
 
-* Transfer-Lamports: moves 5 lamports from a source account to a destination
+* Transfer-Lamports: moves lamports from a source account to a destination, with
+the amount given by a little-endian u64 in instruction data.
 
 | Language | CU Usage |
 | --- | --- |
-| Rust | 464 |
-| Zig | 43 |
-| C | 103 |
-| Assembly | 22 |
-| Rust (pinocchio) | 23 |
+| Rust | 459 |
+| Zig | 44 |
+| C | 104 |
+| Assembly | 31 |
+| Rust (pinocchio) | 32 |
 
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
-be hyper-optimized. The C version is also very performant.
-
-Zig's version should perform the same as C, but there are some inefficiencies that
-are currently being fixed.
+be hyper-optimized.
 
 * CPI: allocates a PDA given by the seed "You pass butter" and a bump seed in
 the instruction data. This requires a call to `create_program_address` to check

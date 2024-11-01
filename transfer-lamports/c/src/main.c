@@ -11,10 +11,11 @@ extern uint64_t entrypoint(const uint8_t *input) {
     return ERROR_INVALID_ARGUMENT;
   }
 
+  uint64_t transfer_amount = *(uint64_t *) params.data;
   SolAccountInfo source_account = params.ka[0];
   SolAccountInfo destination_account = params.ka[1];
-  *source_account.lamports -= 5;
-  *destination_account.lamports += 5;
+  *source_account.lamports -= transfer_amount;
+  *destination_account.lamports += transfer_amount;
 
   return 0;
 }
