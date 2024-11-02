@@ -20,7 +20,7 @@ async fn test_lamport_transfer() {
         None,
     );
 
-    let source_lamports = 5;
+    let source_lamports = 555_555;
     let destination_lamports = 890_875;
     program_test.add_account(
         source_pubkey,
@@ -43,7 +43,7 @@ async fn test_lamport_transfer() {
     let mut transaction = Transaction::new_with_payer(
         &[Instruction::new_with_bincode(
             program_id,
-            &(),
+            &source_lamports.to_le_bytes(),
             vec![
                 AccountMeta::new(source_pubkey, false),
                 AccountMeta::new(destination_pubkey, false),
