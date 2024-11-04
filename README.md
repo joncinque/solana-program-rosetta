@@ -165,20 +165,25 @@ the amount given by a little-endian u64 in instruction data.
 | Rust | 459 |
 | Zig | 44 |
 | C | 104 |
-| Assembly | 31 |
+| Assembly | 30 |
 | Rust (pinocchio) | 32 |
 
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
-be hyper-optimized.
+be hyper-optimized. The pinocchio version performs very closely to the assembly
+implementation!
 
 * CPI: allocates a PDA given by the seed "You pass butter" and a bump seed in
 the instruction data. This requires a call to `create_program_address` to check
 the address and `invoke_signed` to CPI to the system program.
 
-| Language | CU Usage |
-| --- | --- |
-| Rust | 3662 |
-| Zig | 2825 |
-| C | 3122 |
-| Rust (pinocchio) | 2816 |
+| Language | CU Usage | CU Usage (minus syscalls) |
+| --- | --- | --- |
+| Rust | 3662 | 1162 |
+| Zig | 2825 | 325 |
+| C | 3122 | 622 |
+| Rust (pinocchio) | 2816 | 316 |
+
+Note: `create_program_address` consumes 1500 CUs, and `invoke` consumes 1000, so
+we can subtract 2500 CUs from each program to see the actual cost of the program
+logic.
