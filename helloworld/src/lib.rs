@@ -1,4 +1,4 @@
-use solana_program::msg;
+use solana_msg::msg;
 
 #[no_mangle]
 pub extern "C" fn entrypoint(_: *mut u8) -> u64 {
@@ -7,5 +7,5 @@ pub extern "C" fn entrypoint(_: *mut u8) -> u64 {
 }
 #[cfg(target_os = "solana")]
 #[no_mangle]
-fn custom_panic(info: &core::panic::PanicInfo<'_>) {}
-solana_program::custom_heap_default!();
+fn custom_panic(_info: &core::panic::PanicInfo<'_>) {}
+solana_program_entrypoint::custom_heap_default!();

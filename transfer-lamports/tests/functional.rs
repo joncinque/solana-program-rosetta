@@ -1,9 +1,7 @@
 use {
-    solana_program::{
-        instruction::{AccountMeta, Instruction},
-        pubkey::Pubkey,
-    },
+    solana_instruction::{AccountMeta, Instruction},
     solana_program_test::*,
+    solana_pubkey::Pubkey,
     solana_sdk::{account::Account, signature::Signer, transaction::Transaction},
     std::str::FromStr,
 };
@@ -38,7 +36,7 @@ async fn test_lamport_transfer() {
             ..Account::default()
         },
     );
-    let (mut banks_client, payer, recent_blockhash) = program_test.start().await;
+    let (banks_client, payer, recent_blockhash) = program_test.start().await;
 
     let mut transaction = Transaction::new_with_payer(
         &[Instruction::new_with_bincode(

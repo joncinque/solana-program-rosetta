@@ -41,7 +41,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.78.0
+        toolchain: 1.81.0
 
     - name: Install build deps
       run: ./install-rust-build-deps.sh
@@ -69,7 +69,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.78.0
+        toolchain: 1.81.0
 
     - name: Install Rust build deps
       run: ./install-rust-build-deps.sh
@@ -103,7 +103,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.78.0
+        toolchain: 1.81.0
 
     - name: Install Rust build deps
       run: ./install-rust-build-deps.sh
@@ -140,7 +140,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.78.0
+        toolchain: 1.81.0
 
     - name: Install Rust build deps
       run: ./install-rust-build-deps.sh
@@ -171,7 +171,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.78.0
+        toolchain: 1.81.0
 
     - name: Install Rust build deps
       run: ./install-rust-build-deps.sh
