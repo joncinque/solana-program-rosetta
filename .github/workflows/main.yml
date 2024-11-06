@@ -53,7 +53,7 @@ jobs:
     name: Run tests against Rust implementations
     strategy:
       matrix:
-        program: [helloworld, transfer-lamports, cpi]
+        program: [helloworld, transfer-lamports, cpi, token]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:

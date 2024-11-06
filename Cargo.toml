@@ -3,6 +3,7 @@ members = [
   "cpi",
   "cpi/pinocchio",
   "helloworld",
+  "token",
   "transfer-lamports",
   "transfer-lamports/pinocchio"
 ]
