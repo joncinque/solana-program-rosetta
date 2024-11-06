@@ -187,3 +187,43 @@ the address and `invoke_signed` to CPI to the system program.
 Note: `create_program_address` consumes 1500 CUs, and `invoke` consumes 1000, so
 we can subtract 2500 CUs from each program to see the actual cost of the program
 logic.
+
+* Token: a reduced instruction set from SPL-Token. Includes an entrypoint,
+instruction deserialization, and account serde. The Rust version is the full SPL
+Token program.
+
+  * Initialize Mint
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 1115 |
+
+  * Initialize Account
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 2071 |
+
+  * Mint To
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 2189 |
+
+  * Transfer
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 2208 |
+
+  * Burn
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 2045 |
+
+  * Close Account
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 1483 |
