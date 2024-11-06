@@ -2,16 +2,16 @@
 #![deny(missing_docs)]
 #![forbid(unsafe_code)]
 
-use solana_program::{
-    account_info::{next_account_info, AccountInfo},
-    entrypoint::ProgramResult,
-    program::invoke_signed,
-    program_error::ProgramError,
-    pubkey::Pubkey,
-    system_instruction,
+use {
+    solana_account_info::{next_account_info, AccountInfo},
+    solana_cpi::invoke_signed,
+    solana_program::system_instruction, // replace with solana_system_interface
+    solana_program_entrypoint::ProgramResult,
+    solana_program_error::ProgramError,
+    solana_pubkey::Pubkey,
 };
 
-solana_program::entrypoint!(process_instruction);
+solana_program_entrypoint::entrypoint!(process_instruction);
 
 /// Amount of bytes of account data to allocate
 pub const SIZE: usize = 42;

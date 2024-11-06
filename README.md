@@ -179,7 +179,7 @@ the address and `invoke_signed` to CPI to the system program.
 
 | Language | CU Usage | CU Usage (minus syscalls) |
 | --- | --- | --- |
-| Rust | 3662 | 1162 |
+| Rust | 3698 | 1198 |
 | Zig | 2825 | 325 |
 | C | 3122 | 622 |
 | Rust (pinocchio) | 2816 | 316 |
