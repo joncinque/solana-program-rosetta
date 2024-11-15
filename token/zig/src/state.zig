@@ -47,13 +47,13 @@ pub fn COption(T: type) type {
             }
         }
         pub fn fromValue(value: T) Self {
-            return Self {
+            return Self{
                 .is_some = 1,
                 .value = value,
             };
         }
         pub fn asNull() Self {
-            return Self {
+            return Self{
                 .is_some = 0,
                 .value = std.mem.zeroes(T),
             };
@@ -73,7 +73,7 @@ pub const Multisig = packed struct {
 };
 
 test "Mint: bitCast" {
-    const mint = Mint {
+    const mint = Mint{
         .authority = COption(PublicKey).fromOptional(std.mem.bytesToValue(PublicKey, &[_]u8{1} ** 32)),
         .supply = 42,
         .decimals = 7,
@@ -81,9 +81,9 @@ test "Mint: bitCast" {
         .freeze_authority = COption(PublicKey).fromOptional(std.mem.bytesToValue(PublicKey, &[_]u8{2} ** 32)),
     };
     const mint_buffer = [_]u8{
-        1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 1, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 42, 0, 0, 0, 0, 0, 0, 0, 7, 1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2,  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     };
     try std.testing.expectEqualSlices(u8, &mint_buffer, std.mem.asBytes(&mint)[0..82]);
     const cast_mint: Mint = @bitCast(mint_buffer);
@@ -91,7 +91,7 @@ test "Mint: bitCast" {
 }
 
 test "Mint: cast with padding" {
-    const mint = Mint {
+    const mint = Mint{
         .authority = COption(PublicKey).new(std.mem.bytesToValue(PublicKey, &[_]u8{1} ** 32)),
         .supply = 42,
         .decimals = 7,
@@ -99,10 +99,9 @@ test "Mint: cast with padding" {
         .freeze_authority = COption(PublicKey).new(std.mem.bytesToValue(PublicKey, &[_]u8{2} ** 32)),
     };
     const mint_buffer = [_]u8{
-        0,
-        1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 42, 0, 0, 0, 0, 0, 0, 0, 7, 1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        0, 1, 0, 0, 0, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 42, 0, 0, 0, 0, 0, 0, 0, 7, 1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2,  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     };
     try std.testing.expectEqualSlices(u8, mint_buffer[1..], std.mem.asBytes(&mint)[0..82]);
     const cast_mint: *const Mint = @alignCast(@ptrCast(mint_buffer[1..]));

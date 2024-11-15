@@ -316,27 +316,27 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             //}
 
             //if !source_account.is_owned_by_system_program_or_incinerator() {
-                //match source_account.delegate {
-                    //COption::Some(ref delegate) if Self::cmp_pubkeys(authority_info.key, delegate) => {
-                        //Self::validate_owner(
-                            //program_id,
-                            //delegate,
-                            //authority_info,
-                            //account_info_iter.as_slice(),
-                        //)?;
+            //match source_account.delegate {
+            //COption::Some(ref delegate) if Self::cmp_pubkeys(authority_info.key, delegate) => {
+            //Self::validate_owner(
+            //program_id,
+            //delegate,
+            //authority_info,
+            //account_info_iter.as_slice(),
+            //)?;
 
-                        //if source_account.delegated_amount < amount {
-                            //return Err(TokenError::InsufficientFunds.into());
-                        //}
-                        //source_account.delegated_amount = source_account
-                            //.delegated_amount
-                            //.checked_sub(amount)
-                            //.ok_or(TokenError::Overflow)?;
-                        //if source_account.delegated_amount == 0 {
-                            //source_account.delegate = COption::None;
-                        //}
-                    //}
-                //}
+            //if source_account.delegated_amount < amount {
+            //return Err(TokenError::InsufficientFunds.into());
+            //}
+            //source_account.delegated_amount = source_account
+            //.delegated_amount
+            //.checked_sub(amount)
+            //.ok_or(TokenError::Overflow)?;
+            //if source_account.delegated_amount == 0 {
+            //source_account.delegate = COption::None;
+            //}
+            //}
+            //}
             //}
             try validateOwner(
                 program_id,
@@ -383,17 +383,19 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             }
 
             const authority = if (source.close_authority.is_some != 0)
-                source.close_authority.value else source.owner;
+                source.close_authority.value
+            else
+                source.owner;
 
             //if !source_account.is_owned_by_system_program_or_incinerator() {
-                //Self::validate_owner(
-                    //program_id,
-                    //&authority,
-                    //authority_info,
-                    //account_info_iter.as_slice(),
-                //)?;
+            //Self::validate_owner(
+            //program_id,
+            //&authority,
+            //authority_info,
+            //account_info_iter.as_slice(),
+            //)?;
             //} else if !solana_program::incinerator::check_id(destination_account_info.key) {
-                //return Err(ProgramError::InvalidAccountData);
+            //return Err(ProgramError::InvalidAccountData);
             //}
 
             try validateOwner(
@@ -465,8 +467,7 @@ fn validateOwner(
     if (!expected_owner.equals(owner_account.id())) {
         return TokenError.OwnerMismatch;
     }
-    if (program_id.equals(owner_account.ownerId()) and owner_account.dataLen() == state.Multisig.len)
-    {
+    if (program_id.equals(owner_account.ownerId()) and owner_account.dataLen() == state.Multisig.len) {
         //let multisig = Multisig::unpack(&owner_account_info.data.borrow())?;
         //let mut num_signers = 0;
         //let mut matched = [false; MAX_SIGNERS];
@@ -482,7 +483,7 @@ fn validateOwner(
         //    }
         //}
         //if num_signers < multisig.m {
-            return TokenError.MissingRequiredSignature;
+        return TokenError.MissingRequiredSignature;
         //}
     } else if (!owner_account.isSigner()) {
         return TokenError.MissingRequiredSignature;

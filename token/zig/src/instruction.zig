@@ -54,13 +54,13 @@ pub fn IxOption(T: type) type {
             }
         }
         pub fn fromValue(value: T) Self {
-            return Self {
+            return Self{
                 .is_some = 1,
                 .value = value,
             };
         }
         pub fn fromNull() Self {
-            return Self {
+            return Self{
                 .is_some = 0,
                 .value = std.mem.zeroes(T),
             };
@@ -73,7 +73,7 @@ pub fn IxOption(T: type) type {
             }
         }
         pub fn toCOption(self: Self) COption(T) {
-            return COption(T) {
+            return COption(T){
                 .is_some = self.is_some,
                 .value = self.value,
             };
@@ -92,7 +92,7 @@ pub const InitializeMintData = packed struct {
 
 pub const AmountData = packed struct {
     /// The amount of tokens to process.
-    amount: u64
+    amount: u64,
 };
 
 pub const Instruction = union(InstructionDiscriminant) {
