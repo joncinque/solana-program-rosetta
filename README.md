@@ -144,7 +144,9 @@ SBF_OUT_DIR="./asm/out" cargo test
 
 ## Current Programs
 
-* Helloworld: logs a static string using the `sol_log_` syscall
+### Helloworld
+
+Logs a static string using the `sol_log_` syscall.
 
 | Language | CU Usage |
 | --- | --- |
@@ -157,8 +159,10 @@ Since this is just doing a syscall, all the languages behave the same. The only
 difference is that the Assembly version *doesn't* set the return code to 0, and
 lets the VM assume it worked.
 
-* Transfer-Lamports: moves lamports from a source account to a destination, with
-the amount given by a little-endian u64 in instruction data.
+### Transfer-Lamports
+
+Moves lamports from a source account to a destination, with the amount given by
+a little-endian u64 in instruction data.
 
 | Language | CU Usage |
 | --- | --- |
@@ -173,9 +177,11 @@ input. Since the assembly version knows exactly where to find everything, it can
 be hyper-optimized. The pinocchio version performs very closely to the assembly
 implementation!
 
-* CPI: allocates a PDA given by the seed "You pass butter" and a bump seed in
-the instruction data. This requires a call to `create_program_address` to check
-the address and `invoke_signed` to CPI to the system program.
+### CPI
+
+Allocates a PDA given by the seed "You pass butter" and a bump seed in the
+instruction data. This requires a call to `create_program_address` to check the
+address and `invoke_signed` to CPI to the system program.
 
 | Language | CU Usage | CU Usage (minus syscalls) |
 | --- | --- | --- |
@@ -188,9 +194,11 @@ Note: `create_program_address` consumes 1500 CUs, and `invoke` consumes 1000, so
 we can subtract 2500 CUs from each program to see the actual cost of the program
 logic.
 
-* Token: a reduced instruction set from SPL-Token. Includes an entrypoint,
-instruction deserialization, and account serde. The Rust version is the full SPL
-Token program.
+### Token
+
+A reduced instruction set from SPL-Token. Includes an entrypoint, instruction
+deserialization, and account serde. The Rust version is the full SPL Token
+program.
 
   * Initialize Mint
 
