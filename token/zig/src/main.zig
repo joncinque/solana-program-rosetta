@@ -22,31 +22,30 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             if (accounts.len < 2) {
                 return TokenError.NotEnoughAccountKeys;
             }
-            const init: *align(1) const ix.InitializeMintData = @ptrCast(data[1..]);
+            const ix_data: *align(1) const ix.InitializeMintData = @ptrCast(data[1..]);
             const mint_account = accounts[0];
             const rent_sysvar = accounts[1];
-            if (!rent_sysvar.id().equals(Rent.id)) {
-                return TokenError.InvalidAccountData;
-            }
 
+            var mint: *align(1) state.Mint = @ptrCast(mint_account.data());
             if (mint_account.dataLen() != state.Mint.len) {
                 return TokenError.InvalidAccountData;
             }
-
-            var mint: *align(1) state.Mint = @ptrCast(mint_account.data());
             if (mint.is_initialized == 1) {
                 return TokenError.AlreadyInUse;
             }
 
             const rent: *align(1) Rent.Data = @ptrCast(rent_sysvar.data());
+            if (!rent_sysvar.id().equals(Rent.id)) {
+                return TokenError.InvalidAccountData;
+            }
             if (!rent.isExempt(mint_account.lamports().*, mint_account.dataLen())) {
                 return TokenError.NotRentExempt;
             }
 
-            mint.mint_authority = state.COption(PublicKey).fromValue(init.mint_authority);
-            mint.decimals = init.decimals;
+            mint.mint_authority = state.COption(PublicKey).fromValue(ix_data.mint_authority);
+            mint.decimals = ix_data.decimals;
             mint.is_initialized = 1;
-            mint.freeze_authority = init.freeze_authority.toCOption();
+            mint.freeze_authority = ix_data.freeze_authority.toCOption();
         },
         ix.InstructionDiscriminant.initialize_account => {
             //sol.log("Instruction: InitializeAccount");
@@ -59,14 +58,13 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             const rent_sysvar = accounts[3];
             const rent: *align(1) Rent.Data = @ptrCast(rent_sysvar.data());
 
+            var account: *align(1) state.Account = @ptrCast(token_account.data());
             if (token_account.dataLen() != state.Account.len) {
                 return TokenError.InvalidAccountData;
             }
-            var account: *align(1) state.Account = @ptrCast(token_account.data());
             if (account.state != state.Account.State.uninitialized) {
                 return TokenError.AlreadyInUse;
             }
-
             if (!rent.isExempt(token_account.lamports().*, token_account.dataLen())) {
                 return TokenError.NotRentExempt;
             }
@@ -80,11 +78,10 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             if (mint_account.id().equals(native_mint_id)) {
                 const rent_exempt_reserve = rent.getMinimumBalance(token_account.dataLen());
                 account.is_native = state.COption(u64).fromValue(rent_exempt_reserve);
-                const amount = @subWithOverflow(token_account.lamports().*, rent_exempt_reserve);
-                if (amount[1] != 0) {
+                if (rent_exempt_reserve > token_account.lamports().*) {
                     return TokenError.Overflow;
                 }
-                account.amount = amount[0];
+                account.amount = token_account.lamports().* - rent_exempt_reserve;
             } else {
                 if (!mint_account.ownerId().equals(program_id.*)) {
                     return TokenError.IllegalOwner;
@@ -109,15 +106,15 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             if (accounts.len < 3) {
                 return TokenError.NotEnoughAccountKeys;
             }
-            const transfer_data: *align(1) const ix.AmountData = @ptrCast(data[1..]);
+            const ix_data: *align(1) const ix.AmountData = @ptrCast(data[1..]);
             const source_account = accounts[0];
             const destination_account = accounts[1];
             const authority_account = accounts[2];
 
+            var source: *align(1) state.Account = @ptrCast(source_account.data());
             if (source_account.dataLen() != state.Account.len) {
                 return TokenError.InvalidAccountData;
             }
-            var source: *align(1) state.Account = @ptrCast(source_account.data());
             if (source.state == state.Account.State.uninitialized) {
                 return TokenError.UninitializedState;
             }
@@ -125,10 +122,10 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 return TokenError.AccountFrozen;
             }
 
+            var destination: *align(1) state.Account = @ptrCast(destination_account.data());
             if (destination_account.dataLen() != state.Account.len) {
                 return TokenError.InvalidAccountData;
             }
-            var destination: *align(1) state.Account = @ptrCast(destination_account.data());
             if (destination.state == state.Account.State.uninitialized) {
                 return TokenError.UninitializedState;
             }
@@ -136,14 +133,13 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 return TokenError.AccountFrozen;
             }
 
-            if (source.amount < transfer_data.amount) {
+            if (source.amount < ix_data.amount) {
                 return TokenError.InsufficientFunds;
             }
             if (!source.mint.equals(destination.mint)) {
                 return TokenError.MintMismatch;
             }
 
-            const self_transfer = source_account.id().equals(destination_account.id());
             //match source_account.delegate {
             //    COption::Some(ref delegate) if Self::cmp_pubkeys(authority_info.key, delegate) => {
             //        Self::validate_owner(
@@ -172,22 +168,23 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 accounts[3..],
             );
 
-            if (self_transfer or transfer_data.amount == 0) {
+            const pre_amount = source.amount;
+            source.amount -= ix_data.amount;
+            destination.amount += ix_data.amount;
+
+            if (source.isNative()) {
+                source_account.lamports().* -= ix_data.amount;
+                destination_account.lamports().* += ix_data.amount;
+            }
+
+            if (pre_amount == source.amount) {
+                // self transfer or 0 token amount, check owners for safety
                 if (!source_account.ownerId().equals(program_id.*)) {
                     return TokenError.IllegalOwner;
                 }
                 if (!destination_account.ownerId().equals(program_id.*)) {
                     return TokenError.IllegalOwner;
                 }
-                return;
-            }
-
-            source.amount -= transfer_data.amount;
-            destination.amount += transfer_data.amount;
-
-            if (source.isNative()) {
-                source_account.lamports().* -= transfer_data.amount;
-                destination_account.lamports().* += transfer_data.amount;
             }
         },
         ix.InstructionDiscriminant.approve => {
@@ -208,17 +205,17 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             const mint_account = accounts[0];
             const destination_account = accounts[1];
             const authority_account = accounts[2];
+
+            var destination: *align(1) state.Account = @ptrCast(destination_account.data());
             if (destination_account.dataLen() != state.Account.len) {
                 return TokenError.InvalidAccountData;
             }
-            var destination: *align(1) state.Account = @ptrCast(destination_account.data());
             if (destination.state == state.Account.State.uninitialized) {
                 return TokenError.UninitializedState;
             }
             if (destination.state == state.Account.State.frozen) {
                 return TokenError.AccountFrozen;
             }
-
             if (destination.isNative()) {
                 return TokenError.NativeNotSupported;
             }
@@ -226,10 +223,10 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 return TokenError.MintMismatch;
             }
 
+            var mint: *align(1) state.Mint = @ptrCast(mint_account.data());
             if (mint_account.dataLen() != state.Mint.len) {
                 return TokenError.InvalidAccountData;
             }
-            var mint: *align(1) state.Mint = @ptrCast(mint_account.data());
             if (mint.is_initialized != 1) {
                 return TokenError.UninitializedState;
             }
@@ -274,15 +271,15 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             if (accounts.len < 3) {
                 return TokenError.NotEnoughAccountKeys;
             }
-            const burn_data: *align(1) const ix.AmountData = @ptrCast(data[1..]);
+            const ix_data: *align(1) const ix.AmountData = @ptrCast(data[1..]);
             const source_account = accounts[0];
             const mint_account = accounts[1];
             const authority_account = accounts[2];
 
+            var source: *align(1) state.Account = @ptrCast(source_account.data());
             if (source_account.dataLen() != state.Account.len) {
                 return TokenError.InvalidAccountData;
             }
-            var source: *align(1) state.Account = @ptrCast(source_account.data());
             if (source.state == state.Account.State.uninitialized) {
                 return TokenError.UninitializedState;
             }
@@ -297,15 +294,15 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 return TokenError.MintMismatch;
             }
 
+            var mint: *align(1) state.Mint = @ptrCast(mint_account.data());
             if (mint_account.dataLen() != state.Mint.len) {
                 return TokenError.InvalidAccountData;
             }
-            var mint: *align(1) state.Mint = @ptrCast(mint_account.data());
             if (mint.is_initialized != 1) {
                 return TokenError.UninitializedState;
             }
 
-            if (source.amount < burn_data.amount) {
+            if (source.amount < ix_data.amount) {
                 return TokenError.InsufficientFunds;
             }
 
@@ -345,7 +342,7 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 accounts[3..],
             );
 
-            if (burn_data.amount == 0) {
+            if (ix_data.amount == 0) {
                 if (!mint_account.ownerId().equals(program_id.*)) {
                     return TokenError.IllegalOwner;
                 }
@@ -354,8 +351,8 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
                 }
             }
 
-            source.amount -= burn_data.amount;
-            mint.supply -= burn_data.amount;
+            source.amount -= ix_data.amount;
+            mint.supply -= ix_data.amount;
         },
         ix.InstructionDiscriminant.close_account => {
             if (accounts.len < 3) {
@@ -365,18 +362,15 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             const destination_account = accounts[1];
             const authority_account = accounts[2];
 
+            var source: *align(1) state.Account = @ptrCast(source_account.data());
             if (source_account.dataLen() != state.Account.len) {
                 return TokenError.InvalidAccountData;
             }
-            var source: *align(1) state.Account = @ptrCast(source_account.data());
             if (source.state == state.Account.State.uninitialized) {
                 return TokenError.UninitializedState;
             }
             if (source.state == state.Account.State.frozen) {
                 return TokenError.AccountFrozen;
-            }
-            if (source_account.id().equals(destination_account.id())) {
-                return TokenError.InvalidAccountData;
             }
             if (!source.isNative() and source.amount != 0) {
                 return TokenError.NonNativeHasBalance;
@@ -409,6 +403,12 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
             source_account.lamports().* = 0;
             source_account.assign(system_program_id);
             source_account.reallocUnchecked(0);
+
+            // if the destination has no more lamports, then this was a self-close,
+            // which is not allowed
+            if (destination_account.lamports().* == 0) {
+                return TokenError.InvalidAccountData;
+            }
         },
         ix.InstructionDiscriminant.freeze_account => {
             return TokenError.InvalidState;
@@ -467,7 +467,7 @@ fn validateOwner(
     if (!expected_owner.equals(owner_account.id())) {
         return TokenError.OwnerMismatch;
     }
-    if (program_id.equals(owner_account.ownerId()) and owner_account.dataLen() == state.Multisig.len) {
+    if (owner_account.dataLen() == state.Multisig.len and program_id.equals(owner_account.ownerId())) {
         //let multisig = Multisig::unpack(&owner_account_info.data.borrow())?;
         //let mut num_signers = 0;
         //let mut matched = [false; MAX_SIGNERS];

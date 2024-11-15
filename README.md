@@ -197,7 +197,7 @@ Token program.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1115 |
-| Zig | 165 |
+| Zig | 166 |
 
   * Initialize Account
 
@@ -211,25 +211,25 @@ Token program.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2189 |
-| Zig | 215 |
+| Zig | 195 |
 
   * Transfer
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2208 |
-| Zig | 205 |
+| Zig | 160 |
 
   * Burn
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2045 |
-| Zig | 175 |
+| Zig | 157 |
 
   * Close Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1483 |
-| Zig | 291 |
+| Zig | 260 |
