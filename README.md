@@ -194,6 +194,16 @@ Note: `create_program_address` consumes 1500 CUs, and `invoke` consumes 1000, so
 we can subtract 2500 CUs from each program to see the actual cost of the program
 logic.
 
+### Pubkey
+
+A program to compare two `Pubkey` instances. This operation is very common in
+on-chain programs, but it can be expensive.
+
+| Language | CU Usage |
+| --- | --- |
+| Rust | 14 |
+| Zig | 15 |
+
 ### Token
 
 A reduced instruction set from SPL-Token. Includes an entrypoint, instruction

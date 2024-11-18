@@ -4473,6 +4473,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "solana-program-rosetta-pubkey"
+version = "1.0.0"
+dependencies = [
+ "solana-instruction",
+ "solana-program-entrypoint",
+ "solana-program-test",
+ "solana-pubkey",
+ "solana-sdk",
+]
+
+[[package]]
 name = "solana-program-rosetta-transfer-lamports"
 version = "1.0.0"
 dependencies = [

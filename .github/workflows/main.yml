@@ -19,7 +19,7 @@ jobs:
     name: Run tests against Zig implementations
     strategy:
       matrix:
-        program: [helloworld, transfer-lamports, cpi, token]
+        program: [helloworld, transfer-lamports, cpi, pubkey, token]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
@@ -53,7 +53,7 @@ jobs:
     name: Run tests against Rust implementations
     strategy:
       matrix:
-        program: [helloworld, transfer-lamports, cpi, token]
+        program: [helloworld, transfer-lamports, cpi, pubkey, token]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
