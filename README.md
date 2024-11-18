@@ -215,39 +215,39 @@ program.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1115 |
-| Zig | 166 |
+| Zig | 158 |
 
   * Initialize Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2071 |
-| Zig | 189 |
+| Zig | 176 |
 
   * Mint To
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2189 |
-| Zig | 195 |
+| Zig | 179 |
 
   * Transfer
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2208 |
-| Zig | 160 |
+| Zig | 148 |
 
   * Burn
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2045 |
-| Zig | 157 |
+| Zig | 145 |
 
   * Close Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1483 |
-| Zig | 260 |
+| Zig | 130 |

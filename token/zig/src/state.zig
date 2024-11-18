@@ -1,5 +1,6 @@
 const std = @import("std");
 const PublicKey = @import("solana-program-sdk").PublicKey;
+const TokenError = @import("error.zig").TokenError;
 
 pub const Mint = packed struct {
     pub const len = 82;
@@ -9,6 +10,17 @@ pub const Mint = packed struct {
     decimals: u8,
     is_initialized: u8,
     freeze_authority: COption(PublicKey),
+
+    pub fn fromBytes(data: []u8) TokenError!*align(1) Mint {
+        const mint: *align(1) Mint = @ptrCast(data);
+        if (data.len != Mint.len) {
+            return TokenError.InvalidAccountData;
+        }
+        if (mint.is_initialized != 1) {
+            return TokenError.UninitializedState;
+        }
+        return mint;
+    }
 };
 
 pub const Account = packed struct {
@@ -31,6 +43,20 @@ pub const Account = packed struct {
 
     pub fn isNative(self: Account) bool {
         return self.is_native.is_some != 0;
+    }
+
+    pub fn fromBytes(data: []u8) TokenError!*align(1) Account {
+        const account: *align(1) Account = @ptrCast(data);
+        if (data.len != Account.len) {
+            return TokenError.InvalidAccountData;
+        }
+        if (account.state == Account.State.uninitialized) {
+            return TokenError.UninitializedState;
+        }
+        if (account.state == Account.State.frozen) {
+            return TokenError.AccountFrozen;
+        }
+        return account;
     }
 };
 
