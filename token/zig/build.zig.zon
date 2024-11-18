@@ -16,8 +16,8 @@
     // internet connectivity.
     .dependencies = .{
         .@"solana-program-sdk" = .{
-            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.15.0.tar.gz",
-            .hash = "1220c255d7d80a59251d901da4d2982eb660d099680c1207b14f51078987c655c979",
+            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.15.1.tar.gz",
+            .hash = "12203631b9eba91c479991ec8f0525f181addb5879bbb96e256427f802c2ca67e108",
         },
     },
 
