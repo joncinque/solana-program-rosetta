@@ -167,7 +167,7 @@ a little-endian u64 in instruction data.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 459 |
-| Zig | 44 |
+| Zig | 38 |
 | C | 104 |
 | Assembly | 30 |
 | Rust (pinocchio) | 32 |
