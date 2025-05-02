@@ -1,4 +1,4 @@
-const sol = @import("solana-program-sdk");
+const sol = @import("solana_program_sdk");
 
 pub const TokenError = error{
     NotRentExempt,

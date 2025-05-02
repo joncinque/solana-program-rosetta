@@ -1,4 +1,4 @@
-const sol = @import("solana-program-sdk");
+const sol = @import("solana_program_sdk");
 const PublicKey = sol.PublicKey;
 const Rent = sol.Rent;
 
