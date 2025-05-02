@@ -1,5 +1,5 @@
 const std = @import("std");
-const solana = @import("solana-program-sdk");
+const solana = @import("solana_program_sdk");
 
 pub fn build(b: *std.Build) !void {
     const target = b.resolveTargetQuery(solana.sbf_target);
