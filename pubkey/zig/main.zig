@@ -1,5 +1,5 @@
 const std = @import("std");
-const PublicKey = @import("solana-program-sdk").PublicKey;
+const PublicKey = @import("solana_program_sdk").PublicKey;
 
 export fn entrypoint(input: [*]u8) u64 {
     const id: *align(1) PublicKey = @ptrCast(input + 16);
