@@ -202,7 +202,7 @@ on-chain programs, but it can be expensive.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 14 |
-| Zig | 15 |
+| Zig | 19 |
 
 ### Token
 
