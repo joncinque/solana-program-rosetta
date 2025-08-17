@@ -186,7 +186,7 @@ address and `invoke_signed` to CPI to the system program.
 | Language | CU Usage | CU Usage (minus syscalls) |
 | --- | --- | --- |
 | Rust | 3698 | 1198 |
-| Zig | 2825 | 325 |
+| Zig | 2809 | 309 |
 | C | 3122 | 622 |
 | Rust (pinocchio) | 2816 | 316 |
 
@@ -202,7 +202,7 @@ on-chain programs, but it can be expensive.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 14 |
-| Zig | 19 |
+| Zig | 15 |
 
 ### Token
 
@@ -215,39 +215,39 @@ program.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1115 |
-| Zig | 158 |
+| Zig | 152 |
 
   * Initialize Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2071 |
-| Zig | 176 |
+| Zig | 175 |
 
   * Mint To
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2189 |
-| Zig | 179 |
+| Zig | 154 |
 
   * Transfer
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2208 |
-| Zig | 148 |
+| Zig | 145 |
 
   * Burn
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2045 |
-| Zig | 145 |
+| Zig | 141 |
 
   * Close Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1483 |
-| Zig | 130 |
+| Zig | 122 |

@@ -42,7 +42,7 @@ pub const InstructionDiscriminant = enum(u8) {
 };
 
 pub fn IxOption(T: type) type {
-    return packed struct {
+    return extern struct {
         is_some: u8,
         value: T,
         const Self = @This();
@@ -81,7 +81,7 @@ pub fn IxOption(T: type) type {
     };
 }
 
-pub const InitializeMintData = packed struct {
+pub const InitializeMintData = extern struct {
     /// Number of base 10 digits to the right of the decimal place.
     decimals: u8,
     /// The authority/multisignature to mint tokens.
@@ -90,7 +90,7 @@ pub const InitializeMintData = packed struct {
     freeze_authority: IxOption(PublicKey),
 };
 
-pub const AmountData = packed struct {
+pub const AmountData = extern struct {
     /// The amount of tokens to process.
     amount: u64,
 };
@@ -149,7 +149,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   1. `[]` Rent sysvar
     ///   2. ..2+N. `[]` The signer accounts, must equal to N where 1 <= N <=
     ///      11.
-    initialize_multisig: packed struct {
+    initialize_multisig: extern struct {
         /// The number of signers (M) required to validate this multisignature
         /// account.
         m: u8,
@@ -213,7 +213,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   0. `[writable]` The mint or account to change the authority of.
     ///   1. `[]` The mint's or account's current multisignature authority.
     ///   2. ..2+M `[signer]` M signer accounts
-    set_authority: packed struct {
+    set_authority: extern struct {
         /// The type of authority to update.
         authority_type: AuthorityType,
         /// The new authority.
@@ -321,7 +321,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   2. `[writable]` The destination account.
     ///   3. `[]` The source account's multisignature owner/delegate.
     ///   4. ..4+M `[signer]` M signer accounts.
-    transfer_checked: packed struct {
+    transfer_checked: extern struct {
         /// The amount of tokens to transfer.
         amount: u64,
         /// Expected number of base 10 digits to the right of the decimal place.
@@ -348,7 +348,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   2. `[]` The delegate.
     ///   3. `[]` The source account's multisignature owner.
     ///   4. ..4+M `[signer]` M signer accounts
-    approve_checked: packed struct {
+    approve_checked: extern struct {
         /// The amount of tokens the delegate is approved for.
         amount: u64,
         /// Expected number of base 10 digits to the right of the decimal place.
@@ -373,7 +373,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   1. `[writable]` The account to mint tokens to.
     ///   2. `[]` The mint's multisignature mint-tokens authority.
     ///   3. ..3+M `[signer]` M signer accounts.
-    mint_to_checked: packed struct {
+    mint_to_checked: extern struct {
         /// The amount of new tokens to mint.
         amount: u64,
         /// Expected number of base 10 digits to the right of the decimal place.
@@ -399,7 +399,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   1. `[writable]` The token mint.
     ///   2. `[]` The account's multisignature owner/delegate.
     ///   3. ..3+M `[signer]` M signer accounts.
-    burn_checked: packed struct {
+    burn_checked: extern struct {
         /// The amount of tokens to burn.
         amount: u64,
         /// Expected number of base 10 digits to the right of the decimal place.
@@ -415,7 +415,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   0. `[writable]`  The account to initialize.
     ///   1. `[]` The mint this account will be associated with.
     ///   3. `[]` Rent sysvar
-    initialize_account_2: packed struct {
+    initialize_account_2: extern struct {
         /// The new account's owner/multisignature.
         owner_id: PublicKey,
     },
@@ -435,7 +435,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///
     ///   0. `[writable]`  The account to initialize.
     ///   1. `[]` The mint this account will be associated with.
-    initialize_account_3: packed struct {
+    initialize_account_3: extern struct {
         /// The new account's owner/multisignature.
         owner_id: PublicKey,
     },
@@ -446,7 +446,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///   0. `[writable]` The multisignature account to initialize.
     ///   1. ..1+N. `[]` The signer accounts, must equal to N where 1 <= N <=
     ///      11.
-    initialize_multisig_2: packed struct {
+    initialize_multisig_2: extern struct {
         /// The number of signers (M) required to validate this multisignature
         /// account.
         m: u8,
@@ -457,7 +457,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     ///
     ///   0. `[writable]` The mint to initialize.
     ///
-    initialize_mint_2: packed struct {
+    initialize_mint_2: extern struct {
         /// Number of base 10 digits to the right of the decimal place.
         decimals: u8,
         /// The authority/multisignature to mint tokens.
@@ -501,7 +501,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     /// Accounts expected by this instruction:
     ///
     ///   0. `[]` The mint to calculate for
-    amount_to_ui_amount: packed struct {
+    amount_to_ui_amount: extern struct {
         /// The amount of tokens to reformat.
         amount: u64,
     },
@@ -514,7 +514,7 @@ pub const Instruction = union(InstructionDiscriminant) {
     /// Accounts expected by this instruction:
     ///
     ///   0. `[]` The mint to calculate for
-    ui_amount_to_amount: packed struct {
+    ui_amount_to_amount: extern struct {
         /// The ui_amount of tokens to reformat.
         ui_amount: [*:0]u8,
     },

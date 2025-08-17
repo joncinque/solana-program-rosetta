@@ -2,7 +2,7 @@ const std = @import("std");
 const PublicKey = @import("solana_program_sdk").PublicKey;
 const TokenError = @import("error.zig").TokenError;
 
-pub const Mint = packed struct {
+pub const Mint = extern struct {
     pub const len = 82;
 
     mint_authority: COption(PublicKey),
@@ -23,7 +23,7 @@ pub const Mint = packed struct {
     }
 };
 
-pub const Account = packed struct {
+pub const Account = extern struct {
     pub const len = 165;
 
     pub const State = enum(u8) {
@@ -61,7 +61,7 @@ pub const Account = packed struct {
 };
 
 pub fn COption(T: type) type {
-    return packed struct {
+    return extern struct {
         is_some: u32,
         value: T,
         const Self = @This();
@@ -94,7 +94,7 @@ pub fn COption(T: type) type {
     };
 }
 
-pub const Multisig = packed struct {
+pub const Multisig = extern struct {
     pub const len = 355;
 };
 
