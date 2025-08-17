@@ -1,5 +1,5 @@
-const sol = @import("solana-program-sdk");
-const sol_lib = @import("solana-program-library");
+const sol = @import("solana_program_sdk");
+const sol_lib = @import("solana_program_library");
 
 const system_ix = sol_lib.system;
 const SIZE = 42;

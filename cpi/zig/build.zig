@@ -1,5 +1,5 @@
 const std = @import("std");
-const solana = @import("solana-program-sdk");
+const solana = @import("solana_program_sdk");
 
 pub fn build(b: *std.Build) !void {
     const target = b.resolveTargetQuery(solana.sbf_target);
@@ -7,8 +7,8 @@ pub fn build(b: *std.Build) !void {
 
     const dep_opts = .{ .target = target, .optimize = optimize };
 
-    const solana_lib_dep = b.dependency("solana-program-library", dep_opts);
-    const solana_lib_mod = solana_lib_dep.module("solana-program-library");
+    const solana_lib_dep = b.dependency("solana_program_library", dep_opts);
+    const solana_lib_mod = solana_lib_dep.module("solana_program_library");
 
     const program = b.addSharedLibrary(.{
         .name = "solana_program_rosetta_cpi",
@@ -17,7 +17,7 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
-    program.root_module.addImport("solana-program-library", solana_lib_mod);
+    program.root_module.addImport("solana_program_library", solana_lib_mod);
 
     _ = solana.buildProgram(b, program, target, optimize);
 
