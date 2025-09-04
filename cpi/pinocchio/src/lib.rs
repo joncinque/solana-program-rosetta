@@ -2,17 +2,17 @@
 #![deny(missing_docs)]
 
 use pinocchio::{
-    instruction::{Account, AccountMeta, Instruction},
+    instruction::{Account, AccountMeta, Instruction, Signer},
     lazy_entrypoint::InstructionContext,
     program::invoke_signed_unchecked,
     program_error::ProgramError,
     pubkey::create_program_address,
-    signer, ProgramResult,
+    seeds, ProgramResult,
 };
 
 // Since this is a single instruction program, we use the "lazy" variation
 // of the entrypoint.
-pinocchio::lazy_entrypoint!(process_instruction);
+pinocchio::lazy_program_entrypoint!(process_instruction);
 
 /// Amount of bytes of account data to allocate
 pub const SIZE: usize = 42;
@@ -31,7 +31,8 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
 
     // Again, don't need to check that all accounts have been consumed, we know
     // we have exactly 2 accounts.
-    let (instruction_data, program_id) = unsafe { context.instruction_data_unchecked() };
+    let instruction_data = unsafe { context.instruction_data_unchecked() };
+    let program_id = unsafe { context.program_id_unchecked() };
 
     let expected_allocated_key =
         create_program_address(&[b"You pass butter", &[instruction_data[0]]], program_id)?;
@@ -57,7 +58,10 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
         invoke_signed_unchecked(
             &instruction,
             &[Account::from(&allocated_info)],
-            &[signer!(b"You pass butter", &[instruction_data[0]])],
+            &[Signer::from(&seeds!(
+                b"You pass butter",
+                &[instruction_data[0]]
+            ))],
         )
     };
 

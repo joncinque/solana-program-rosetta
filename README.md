@@ -170,11 +170,11 @@ a little-endian u64 in instruction data.
 | Zig | 38 |
 | C | 104 |
 | Assembly | 30 |
-| Rust (pinocchio) | 32 |
+| Rust (pinocchio) | 28 |
 
 This one starts to get interesting since it requires parsing the instruction
 input. Since the assembly version knows exactly where to find everything, it can
-be hyper-optimized. The pinocchio version performs very closely to the assembly
+be hyper-optimized. The pinocchio version performs better than the assembly
 implementation!
 
 ### CPI
@@ -188,7 +188,7 @@ address and `invoke_signed` to CPI to the system program.
 | Rust | 3698 | 1198 |
 | Zig | 2809 | 309 |
 | C | 3122 | 622 |
-| Rust (pinocchio) | 2816 | 316 |
+| Rust (pinocchio) | 2802 | 302 |
 
 Note: `create_program_address` consumes 1500 CUs, and `invoke` consumes 1000, so
 we can subtract 2500 CUs from each program to see the actual cost of the program

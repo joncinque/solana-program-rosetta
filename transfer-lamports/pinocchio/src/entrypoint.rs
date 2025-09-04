@@ -10,7 +10,7 @@ use pinocchio::{
 
 // Since this is a single instruction program, we use the "lazy" variation
 // of the entrypoint.
-pinocchio::lazy_entrypoint!(process_instruction);
+pinocchio::lazy_program_entrypoint!(process_instruction);
 
 #[inline]
 fn process_instruction(mut context: InstructionContext) -> ProgramResult {
@@ -38,7 +38,7 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
         // accounts are different, so we can safely ignore the case when the account is
         // duplicated.
         if let MaybeAccount::Account(destination_info) = context.next_account_unchecked() {
-            let (instruction_data, _) = context.instruction_data_unchecked();
+            let instruction_data = context.instruction_data_unchecked();
             let transfer_amount = u64::from_le_bytes(instruction_data.try_into().unwrap());
             // withdraw five lamports
             *source_info.borrow_mut_lamports_unchecked() -= transfer_amount;
