@@ -167,7 +167,7 @@ a little-endian u64 in instruction data.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 459 |
-| Zig | 38 |
+| Zig | 37 |
 | C | 104 |
 | Assembly | 30 |
 | Rust (pinocchio) | 28 |
@@ -186,7 +186,7 @@ address and `invoke_signed` to CPI to the system program.
 | Language | CU Usage | CU Usage (minus syscalls) |
 | --- | --- | --- |
 | Rust | 3698 | 1198 |
-| Zig | 2809 | 309 |
+| Zig | 2967 | 309 |
 | C | 3122 | 622 |
 | Rust (pinocchio) | 2802 | 302 |
 
@@ -215,39 +215,39 @@ program.
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1115 |
-| Zig | 152 |
+| Zig | 142 |
 
   * Initialize Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2071 |
-| Zig | 175 |
+| Zig | 158 |
 
   * Mint To
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2189 |
-| Zig | 154 |
+| Zig | 133 |
 
   * Transfer
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2208 |
-| Zig | 145 |
+| Zig | 124 |
 
   * Burn
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 2045 |
-| Zig | 141 |
+| Zig | 123 |
 
   * Close Account
 
 | Language | CU Usage |
 | --- | --- |
 | Rust | 1483 |
-| Zig | 122 |
+| Zig | 114 |

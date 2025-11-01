@@ -9,11 +9,14 @@ pub fn build(b: *std.Build) !void {
     //const solana_lib_dep = b.dependency("solana-program-library", dep_opts);
     //const solana_lib_mod = solana_lib_dep.module("solana-program-library");
 
-    const program = b.addSharedLibrary(.{
+    const program = b.addLibrary(.{
         .name = "spl_token",
-        .root_source_file = b.path("src/main.zig"),
-        .target = target,
-        .optimize = optimize,
+        .linkage = .dynamic,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/main.zig"),
+            .optimize = optimize,
+            .target = target,
+        })
     });
 
     //program.root_module.addImport("solana-program-library", solana_lib_mod);

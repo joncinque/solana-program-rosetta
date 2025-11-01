@@ -6,12 +6,12 @@
 
     .dependencies = .{
         .solana_program_sdk = .{
-            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.16.2.tar.gz",
-            .hash = "solana_program_sdk-0.16.2-wGj9UHXjAAAK5z6ZdLUJ5uu2SxgE8o7ZJ9Il4EG22IJP",
+            .url = "https://github.com/joncinque/solana-program-sdk-zig/archive/refs/tags/v0.17.1.tar.gz",
+            .hash = "solana_program_sdk-0.17.1-wGj9UBrlAADAagTi3MSX1vSpGg-DePWB_5znbUgMlH1U",
         },
         .solana_program_library = .{
-            .url = "https://github.com/joncinque/solana-program-library-zig/archive/refs/tags/v0.15.1.tar.gz",
-            .hash = "solana_program_library-0.15.1-10r-le4EAQBXCYrq-CeWEKfTnJEh29ErMm8tA46Mi2Dd",
+            .url = "https://github.com/joncinque/solana-program-library-zig/archive/refs/tags/v0.16.1.tar.gz",
+            .hash = "solana_program_library-0.16.1-10r-lcr-AACkeemV1ql6olBAHLdID3JPJmGcNsx1gayC",
         },
     },
 

@@ -3,7 +3,7 @@
 if [[ -n $SOLANA_ZIG_VERSION ]]; then
   solana_zig_version="$SOLANA_ZIG_VERSION"
 else
-  solana_zig_version="v1.47.0"
+  solana_zig_version="v1.52.0"
 fi
 solana_zig_release_url="https://github.com/joncinque/solana-zig-bootstrap/releases/download/solana-$solana_zig_version"
 

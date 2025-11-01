@@ -5,10 +5,10 @@ const system_ix = sol_lib.system;
 const SIZE = 42;
 
 export fn entrypoint(input: [*]u8) u64 {
-    const context = sol.Context.load(input) catch return 1;
+    const context = sol.context.Context.load(input) catch return 1;
     const allocated = context.accounts[0];
 
-    const expected_allocated_key = sol.PublicKey.createProgramAddress(
+    const expected_allocated_key = sol.public_key.PublicKey.createProgramAddress(
         &.{ "You pass butter", &.{context.data[0]} },
         context.program_id.*,
     ) catch return 1;

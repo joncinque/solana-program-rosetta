@@ -1,6 +1,6 @@
 const std = @import("std");
 const COption = @import("state.zig").COption;
-const PublicKey = @import("solana_program_sdk").PublicKey;
+const PublicKey = @import("solana_program_sdk").public_key.PublicKey;
 
 pub const AuthorityType = enum(u8) {
     /// Authority to mint new tokens

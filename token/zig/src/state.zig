@@ -1,5 +1,5 @@
 const std = @import("std");
-const PublicKey = @import("solana_program_sdk").PublicKey;
+const PublicKey = @import("solana_program_sdk").public_key.PublicKey;
 const TokenError = @import("error.zig").TokenError;
 
 pub const Mint = extern struct {

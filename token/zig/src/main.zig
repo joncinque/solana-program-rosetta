@@ -1,6 +1,7 @@
 const sol = @import("solana_program_sdk");
-const PublicKey = sol.PublicKey;
-const Rent = sol.Rent;
+const Account = sol.account.Account;
+const PublicKey = sol.public_key.PublicKey;
+const Rent = sol.rent.Rent;
 
 const ix = @import("instruction.zig");
 const state = @import("state.zig");
@@ -9,12 +10,12 @@ const native_mint_id = @import("id.zig").native_mint_id;
 const system_program_id = @import("id.zig").system_program_id;
 
 export fn entrypoint(input: [*]u8) u64 {
-    var context = sol.Context.load(input) catch return 1;
+    var context = sol.context.Context.load(input) catch return 1;
     processInstruction(context.program_id, context.accounts[0..context.num_accounts], context.data) catch |err| return @intFromError(err);
     return 0;
 }
 
-fn initializeMint(accounts: []sol.Account, data: []const u8) TokenError!void {
+fn initializeMint(accounts: []Account, data: []const u8) TokenError!void {
     if (accounts.len < 2) {
         return TokenError.NotEnoughAccountKeys;
     }
@@ -44,7 +45,7 @@ fn initializeMint(accounts: []sol.Account, data: []const u8) TokenError!void {
     mint.freeze_authority = ix_data.freeze_authority.toCOption();
 }
 
-fn initializeAccount(program_id: *align(1) PublicKey, accounts: []sol.Account) TokenError!void {
+fn initializeAccount(program_id: *align(1) PublicKey, accounts: []Account) TokenError!void {
     if (accounts.len < 4) {
         return TokenError.NotEnoughAccountKeys;
     }
@@ -95,7 +96,7 @@ fn initializeAccount(program_id: *align(1) PublicKey, accounts: []sol.Account) T
     }
 }
 
-fn transfer(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []const u8) TokenError!void {
+fn transfer(program_id: *align(1) PublicKey, accounts: []Account, data: []const u8) TokenError!void {
     if (accounts.len < 3) {
         return TokenError.NotEnoughAccountKeys;
     }
@@ -162,7 +163,7 @@ fn transfer(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []co
     }
 }
 
-fn mintTo(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []const u8) TokenError!void {
+fn mintTo(program_id: *align(1) PublicKey, accounts: []Account, data: []const u8) TokenError!void {
     if (accounts.len < 3) {
         return TokenError.NotEnoughAccountKeys;
     }
@@ -214,7 +215,7 @@ fn mintTo(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []cons
     destination.amount += ix_data.amount;
 }
 
-fn burn(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []const u8) TokenError!void {
+fn burn(program_id: *align(1) PublicKey, accounts: []Account, data: []const u8) TokenError!void {
     if (accounts.len < 3) {
         return TokenError.NotEnoughAccountKeys;
     }
@@ -285,7 +286,7 @@ fn burn(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []const 
     }
 }
 
-fn closeAccount(program_id: *align(1) PublicKey, accounts: []sol.Account) TokenError!void {
+fn closeAccount(program_id: *align(1) PublicKey, accounts: []Account) TokenError!void {
     if (accounts.len < 3) {
         return TokenError.NotEnoughAccountKeys;
     }
@@ -333,7 +334,7 @@ fn closeAccount(program_id: *align(1) PublicKey, accounts: []sol.Account) TokenE
     }
 }
 
-fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, data: []const u8) TokenError!void {
+fn processInstruction(program_id: *align(1) PublicKey, accounts: []Account, data: []const u8) TokenError!void {
     const instruction_type: *const ix.InstructionDiscriminant = @ptrCast(data);
     switch (instruction_type.*) {
         ix.InstructionDiscriminant.initialize_mint => {
@@ -423,8 +424,8 @@ fn processInstruction(program_id: *align(1) PublicKey, accounts: []sol.Account, 
 fn validateOwner(
     program_id: *align(1) const PublicKey,
     expected_owner: *align(1) const PublicKey,
-    owner_account: sol.Account,
-    _: []sol.Account,
+    owner_account: Account,
+    _: []Account,
 ) TokenError!void {
     if (!expected_owner.equals(owner_account.id())) {
         return TokenError.OwnerMismatch;

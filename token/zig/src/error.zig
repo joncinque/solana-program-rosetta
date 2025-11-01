@@ -1,4 +1,4 @@
-const sol = @import("solana_program_sdk");
+const log = @import("solana_program_sdk").log.log;
 
 pub const TokenError = error{
     NotRentExempt,
@@ -52,64 +52,64 @@ pub const TokenError = error{
 pub fn logError(e: TokenError) void {
     switch (e) {
         TokenError.NotRentExempt => {
-            sol.log("Error: Lamport balance below rent-exempt threshold");
+            log("Error: Lamport balance below rent-exempt threshold");
         },
         TokenError.InsufficientFunds => {
-            sol.log("Error: insufficient funds");
+            log("Error: insufficient funds");
         },
         TokenError.InvalidMint => {
-            sol.log("Error: Invalid Mint");
+            log("Error: Invalid Mint");
         },
         TokenError.MintMismatch => {
-            sol.log("Error: Account not associated with this Mint");
+            log("Error: Account not associated with this Mint");
         },
         TokenError.OwnerMismatch => {
-            sol.log("Error: owner does not match");
+            log("Error: owner does not match");
         },
         TokenError.FixedSupply => {
-            sol.log("Error: the total supply of this token is fixed");
+            log("Error: the total supply of this token is fixed");
         },
         TokenError.AlreadyInUse => {
-            sol.log("Error: account or token already in use");
+            log("Error: account or token already in use");
         },
         TokenError.InvalidNumberOfProvidedSigners => {
-            sol.log("Error: Invalid number of provided signers");
+            log("Error: Invalid number of provided signers");
         },
         TokenError.InvalidNumberOfRequiredSigners => {
-            sol.log("Error: Invalid number of required signers");
+            log("Error: Invalid number of required signers");
         },
         TokenError.UninitializedState => {
-            sol.log("Error: State is uninitialized");
+            log("Error: State is uninitialized");
         },
         TokenError.NativeNotSupported => {
-            sol.log("Error: Instruction does not support native tokens");
+            log("Error: Instruction does not support native tokens");
         },
         TokenError.NonNativeHasBalance => {
-            sol.log("Error: Non-native account can only be closed if its balance is zero");
+            log("Error: Non-native account can only be closed if its balance is zero");
         },
         TokenError.InvalidInstruction => {
-            sol.log("Error: Invalid instruction");
+            log("Error: Invalid instruction");
         },
         TokenError.InvalidState => {
-            sol.log("Error: Invalid account state for operation");
+            log("Error: Invalid account state for operation");
         },
         TokenError.Overflow => {
-            sol.log("Error: Operation overflowed");
+            log("Error: Operation overflowed");
         },
         TokenError.AuthorityTypeNotSupported => {
-            sol.log("Error: Account does not support specified authority type");
+            log("Error: Account does not support specified authority type");
         },
         TokenError.MintCannotFreeze => {
-            sol.log("Error: This token mint cannot freeze accounts");
+            log("Error: This token mint cannot freeze accounts");
         },
         TokenError.AccountFrozen => {
-            sol.log("Error: Account is frozen");
+            log("Error: Account is frozen");
         },
         TokenError.MintDecimalsMismatch => {
-            sol.log("Error: decimals different from the Mint decimals");
+            log("Error: decimals different from the Mint decimals");
         },
         TokenError.NonNativeNotSupported => {
-            sol.log("Error: Instruction does not support non-native tokens");
+            log("Error: Instruction does not support non-native tokens");
         },
         TokenError.InvalidArgument => {},
         TokenError.InvalidInstructionData => {},
