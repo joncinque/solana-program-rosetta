@@ -4,8 +4,12 @@ version = "1.0.0"
 edition = "2021"
 
 [dependencies]
-pinocchio = "0.9.1"
-pinocchio-system = "0.3.0"
+pinocchio = { version = "0.10.1", features = ["cpi"] }
+pinocchio-system = "0.5.0"
+
+[dev-dependencies]
+# This helps rust-analyzer find the `create_program_address` function.
+solana-address = { version = "2.0.0", features = ["curve25519"] }
 
 [lib]
 crate-type = ["cdylib", "lib"]

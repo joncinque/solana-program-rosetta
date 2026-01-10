@@ -7,7 +7,7 @@ edition = "2021"
 no-entrypoint = []
 
 [dependencies]
-pinocchio = "0.9.1"
+pinocchio = {version = "0.10.1", default-features = false }
 
 [lib]
 crate-type = ["cdylib", "lib"]

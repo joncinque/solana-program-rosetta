@@ -3,8 +3,8 @@
 #![cfg(not(feature = "no-entrypoint"))]
 
 use pinocchio::{
-    lazy_entrypoint::{InstructionContext, MaybeAccount},
-    program_error::ProgramError,
+    entrypoint::{InstructionContext, MaybeAccount},
+    error::ProgramError,
     ProgramResult,
 };
 
@@ -40,10 +40,10 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
         if let MaybeAccount::Account(destination_info) = context.next_account_unchecked() {
             let instruction_data = context.instruction_data_unchecked();
             let transfer_amount = u64::from_le_bytes(instruction_data.try_into().unwrap());
-            // withdraw five lamports
-            *source_info.borrow_mut_lamports_unchecked() -= transfer_amount;
-            // deposit five lamports
-            *destination_info.borrow_mut_lamports_unchecked() += transfer_amount;
+            // withdraw lamports
+            source_info.set_lamports(source_info.lamports() - transfer_amount);
+            // deposit lamports
+            destination_info.set_lamports(destination_info.lamports() + transfer_amount);
         }
     }
 

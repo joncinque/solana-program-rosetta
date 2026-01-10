@@ -2,12 +2,12 @@
 #![deny(missing_docs)]
 
 use pinocchio::{
-    instruction::{Account, AccountMeta, Instruction, Signer},
-    lazy_entrypoint::InstructionContext,
-    program::invoke_signed_unchecked,
-    program_error::ProgramError,
-    pubkey::create_program_address,
-    seeds, ProgramResult,
+    address::address_eq,
+    cpi::{invoke_signed_unchecked, CpiAccount, Signer},
+    entrypoint::InstructionContext,
+    error::ProgramError,
+    instruction::{seeds, InstructionAccount, InstructionView},
+    Address, ProgramResult,
 };
 
 // Since this is a single instruction program, we use the "lazy" variation
@@ -35,8 +35,8 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
     let program_id = unsafe { context.program_id_unchecked() };
 
     let expected_allocated_key =
-        create_program_address(&[b"You pass butter", &[instruction_data[0]]], program_id)?;
-    if *allocated_info.key() != expected_allocated_key {
+        Address::create_program_address(&[b"You pass butter", &[instruction_data[0]]], program_id)?;
+    if !address_eq(allocated_info.address(), &expected_allocated_key) {
         // allocated key does not match the derived address
         return Err(ProgramError::InvalidArgument);
     }
@@ -46,9 +46,11 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
     data[0] = 8; // ix discriminator
     data[4..12].copy_from_slice(&SIZE.to_le_bytes());
 
-    let instruction = Instruction {
+    let instruction = InstructionView {
         program_id: &pinocchio_system::ID,
-        accounts: &[AccountMeta::writable_signer(allocated_info.key())],
+        accounts: &[InstructionAccount::writable_signer(
+            allocated_info.address(),
+        )],
         data: &data,
     };
 
@@ -57,7 +59,7 @@ fn process_instruction(mut context: InstructionContext) -> ProgramResult {
     unsafe {
         invoke_signed_unchecked(
             &instruction,
-            &[Account::from(&allocated_info)],
+            &[CpiAccount::from(&allocated_info)],
             &[Signer::from(&seeds!(
                 b"You pass butter",
                 &[instruction_data[0]]
