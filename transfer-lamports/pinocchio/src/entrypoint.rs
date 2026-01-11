@@ -5,6 +5,7 @@
 use pinocchio::{
     entrypoint::{InstructionContext, MaybeAccount},
     error::ProgramError,
+    hint::unlikely,
     ProgramResult,
 };
 
@@ -14,7 +15,7 @@ pinocchio::lazy_program_entrypoint!(process_instruction);
 
 #[inline]
 fn process_instruction(mut context: InstructionContext) -> ProgramResult {
-    if context.remaining() != 2 {
+    if unlikely(context.remaining() != 2) {
         return Err(ProgramError::NotEnoughAccountKeys);
     }
 

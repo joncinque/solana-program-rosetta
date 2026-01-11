@@ -6,6 +6,7 @@ use pinocchio::{
     cpi::{invoke_signed_unchecked, CpiAccount, Signer},
     entrypoint::InstructionContext,
     error::ProgramError,
+    hint::unlikely,
     instruction::{seeds, InstructionAccount, InstructionView},
     Address, ProgramResult,
 };
@@ -19,7 +20,7 @@ pub const SIZE: usize = 42;
 
 /// Instruction processor.
 fn process_instruction(mut context: InstructionContext) -> ProgramResult {
-    if context.remaining() != 2 {
+    if unlikely(context.remaining() != 2) {
         return Err(ProgramError::NotEnoughAccountKeys);
     }
 
